@@ -2,20 +2,22 @@
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-// menuHeight será la altura del menú de arriba y le sumo un pixel para que quede mejor posicionado el mouse a la 
-// hora de pintar
-let menuHeight = (document.querySelector(".navbar").offsetHeight) + 1;
 let dibujando = false;
 let borrando = false;
+// menuHeight será la altura del menú de arriba y le sumo un pixel para que quede mejor posicionado el mouse a la 
+// hora de pintar
+let navbarHeight = (document.querySelector(".navbar").offsetHeight);
+// Le debo sumar un pixel porque sino por alguna razón aparece el scroll en el eje y.
+let footerHeight = (document.querySelector(".botonera").offsetHeight) + 1;
+
 let color = "black";
 let grosorLapiz = 1;
 let grosorGoma = 1;
 
-canvas.height = window.innerHeight - menuHeight;
+canvas.height = window.innerHeight - navbarHeight - footerHeight;
 canvas.width = window.innerWidth;
 
 document.addEventListener("DOMContentLoaded", () => {
-
 	let nuevaHoja = document.querySelector("#nuevaHoja");
 	nuevaHoja.addEventListener("click", () => {
 		limpiarHoja();
@@ -37,8 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function cargarImagen(e) {
-  // let canvas = document.querySelector('#canvas');
-  // let ctx = canvas.getContext( '2d' );
   let input = document.querySelector('.input');
 
   // Cuando le da clic a Abrir/Ok en la pestaña de seleccionar imagen.
@@ -69,40 +69,51 @@ function procesarImagen(readerEvent, ctx) {
 	// Espera a que la imagen se cargue en la página para ejecutar la función.
 	image.onload = function () {
 
-	    canvas.width = this.width * 0.5;
-	    canvas.height = this.height * 0.5;
-	    ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+	    let scale = Math.min(canvas.width / this.width, canvas.height / this.height);
 
+	    // Dibujo la imagen en el canvas.
+	    ctx.drawImage(this, 0, 0, this.width * scale, this.height * scale);
+
+	    // Habilito el párrafo de Filtros:
+	    document.querySelector("#filtros").classList.remove("display-none");
+
+	    // Obtengo los datos de la imagen.
 	    let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+
 	    let pixeles = imgData.data;
 
-	    let btnDescargar = document.querySelector("#descargar");
-	    btnDescargar.classList.remove("display-none");
-	    btnDescargar.addEventListener("click", () => {
-	    	descargar(btnDescargar);
-	    })
+	    botonera(pixeles, imgData);
 
-	    let btnFiltroNegativo = document.querySelector("#filtroNegativo");
-	    btnFiltroNegativo.classList.remove("display-none");
-	    btnFiltroNegativo.addEventListener("click", () => {
-	    	filtroNegativo(pixeles, imgData);
-	    	esconderBotonesFiltros();
-	    })
-
-	    let btnFiltroSepia = document.querySelector("#filtroSepia");
-	    btnFiltroSepia.classList.remove("display-none");
-	    btnFiltroSepia.addEventListener("click", () => {
-	    	filtroSepia(pixeles, imgData);
-	    	esconderBotonesFiltros();
-	    })
-
-	    let btnFiltroGris = document.querySelector("#filtroGris");
-	    btnFiltroGris.classList.remove("display-none");
-	    btnFiltroGris.addEventListener("click", () => {
-	    	filtroGris(pixeles, imgData);
-	    	esconderBotonesFiltros();
-	    })
 	}
+}
+
+function botonera(pixeles, imgData) {
+    let btnDescargar = document.querySelector("#descargar");
+    btnDescargar.classList.remove("display-none");
+    btnDescargar.addEventListener("click", () => {
+    	descargar(btnDescargar);
+    })
+
+    let btnFiltroNegativo = document.querySelector("#filtroNegativo");
+    btnFiltroNegativo.classList.remove("display-none");
+    btnFiltroNegativo.addEventListener("click", () => {
+    	filtroNegativo(pixeles, imgData);
+    	esconderBotonesFiltros();
+    })
+
+    let btnFiltroSepia = document.querySelector("#filtroSepia");
+    btnFiltroSepia.classList.remove("display-none");
+    btnFiltroSepia.addEventListener("click", () => {
+    	filtroSepia(pixeles, imgData);
+    	esconderBotonesFiltros();
+    })
+
+    let btnFiltroGris = document.querySelector("#filtroGris");
+    btnFiltroGris.classList.remove("display-none");
+    btnFiltroGris.addEventListener("click", () => {
+    	filtroGris(pixeles, imgData);
+    	esconderBotonesFiltros();
+    })
 }
 
 function descargar(btnDescargar) {
@@ -156,7 +167,7 @@ function limpiarHoja() {
 	esconderBotonesFiltros();
 
 	// Reestablezco el tamaño del canvas.
-	canvas.height = window.innerHeight - menuHeight;
+	canvas.height = window.innerHeight - navbarHeight - footerHeight;
 	canvas.width = window.innerWidth;
 }
 
@@ -167,6 +178,10 @@ function esconderBotonesFiltros() {
 	for(let i = 0; i < allBotonesFiltros.length; i++) {
 		allBotonesFiltros[i].classList.add("display-none");
 	}
+
+	// Deshabilito el párrafo de Filtros:
+	document.querySelector("#filtros").classList.add("display-none");
+
 }
 
 function comenzarBorrado(e) {
@@ -217,20 +232,20 @@ function posicionFinalizado() {
 function dibujo(e) {
 	if(dibujando) {
 		// Le debo restar la altura del menú.
-		ctx.lineTo(e.clientX, e.clientY - menuHeight);
+		ctx.lineTo(e.clientX, e.clientY - navbarHeight);
 		// ctx.strokeStyle = color;
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo(e.clientX, e.clientY - menuHeight);
+		ctx.moveTo(e.clientX, e.clientY - navbarHeight);
 		// console.log(dibujando);
 	}
 
 	if(borrando) {
 		// Le debo restar la altura del menú.
-		ctx.lineTo(e.clientX, e.clientY - menuHeight);
+		ctx.lineTo(e.clientX, e.clientY - navbarHeight);
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo(e.clientX, e.clientY - menuHeight);
+		ctx.moveTo(e.clientX, e.clientY - navbarHeight);
 	}
 }
 
