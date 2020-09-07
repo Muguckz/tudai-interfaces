@@ -4,6 +4,7 @@
 	<title>Ejercicio entregable 1</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<meta charset="utf-8">
+</head>
 <body>
 
 	<nav class="d-flex navbar max-width">
@@ -11,26 +12,37 @@
 			<li class="bold pointer align-center" id="lapiz">
 				Lápiz
 			</li>
-			<li class="bold pointer" id="goma">
-				Goma
-			</li>
-			<li class="bold pointer" id="nuevaHoja">
-				Nueva hoja
-			</li>
 			<li class="bold pointer">
 				Color: <input type="color" id="color" oninput="definirColor(this.value);">
 			</li>
 			<li class="bold pointer">
-				Grosor: <input type="range" id="grosor" oninput="definirGrosor(this.value);" min="1" max="5" value="1">
+				Grosor lápiz: <input type="range" id="grosorLapiz" oninput="definirGrosorLapiz(this.value);" min="1" max="5" value="1">
+			</li>
+			<li class="bold pointer" id="goma">
+				Goma
+			</li>
+			<li class="bold pointer">
+				Grosor goma: <input type="range" id="grosorGoma" oninput="definirGrosorGoma(this.value);" min="1" max="50" value="1">
 			</li>
 			<li class="bold pointer" id="nuevaHoja">
-				<input class="input" type="file">
+				Nueva hoja
+			</li>
+			<li class="bold pointer" id="nuevaHoja">
+				<input class="input" type="file" id="file">
 			</li>
 		</ul>
 	</nav>
-
+<!-- 	<button id="filtroNegativo" class="bold">Filtro negativo</button>
+	<a class="bold" id="descargar" href="">Descargar</a>
+ -->
 <div class="box-canvas d-flex flex-column align-center">
 	<canvas id="canvas" class="canvas"></canvas>
+	<div class="d-flex flex-column mt-3">
+		<a class="display-none mt-3" id="descargar" href="">Descargar</a>
+		<button id="filtroNegativo" class="display-none mt-3">Filtro negativo</button>
+		<button id="filtroSepia" class="display-none mt-3">Filtro sepia</button>
+		<button id="filtroGris" class="display-none mt-3">Filtro gris</button>
+	</div>
 </div>
     
 	<!-- <script type="text/javascript" src="js/script.js"></script> -->

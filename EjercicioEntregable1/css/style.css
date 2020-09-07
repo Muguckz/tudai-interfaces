@@ -18,7 +18,7 @@
 }
 
 .navbar ul {
-	width: 75%;
+	width: 100%;
 }
 
 .max-width {
@@ -59,4 +59,29 @@
 
 .canvas {
 	border-bottom: 1px solid black;
+}
+
+.display-none {
+	display: none;
+}
+
+button {
+	background: #60B7FF;
+	border: 1px solid #1E9AFF;
+	cursor: pointer;
+	color: white;
+	padding: 10px;
+}
+
+a {
+	background: #60B7FF;
+	border: 1px solid #1E9AFF;
+	cursor: pointer;
+	color: white;
+	padding: 10px;
+	text-decoration: none;
+}
+
+.mt-3 {
+	margin-top: 3px;
 }
