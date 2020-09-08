@@ -2,22 +2,25 @@
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
+const canvas2 = document.querySelector("#canvas2");
+const ctx2 = canvas2.getContext("2d");
+
 let dibujando = false;
 let borrando = false;
+
 // menuHeight será la altura del menú de arriba y le sumo un pixel para que quede mejor posicionado el mouse a la 
 // hora de pintar
 let navbarHeight = (document.querySelector(".navbar").offsetHeight);
-// Le debo sumar un pixel porque sino por alguna razón aparece el scroll en el eje y.
-let footerHeight = (document.querySelector(".botonera").offsetHeight) + 1;
+let footerHeight = (document.querySelector(".botonera").offsetHeight);
 
 let color = "black";
-let grosorLapiz = 1;
-let grosorGoma = 1;
-
-canvas.height = window.innerHeight - navbarHeight - footerHeight;
-canvas.width = window.innerWidth;
+let grosorLapiz = 5;
+let grosorGoma = 50;
 
 document.addEventListener("DOMContentLoaded", () => {
+
+	creacionCanvas();
+
 	let nuevaHoja = document.querySelector("#nuevaHoja");
 	nuevaHoja.addEventListener("click", () => {
 		limpiarHoja();
@@ -35,8 +38,26 @@ document.addEventListener("DOMContentLoaded", () => {
 		comenzarBorrado(e);
 	});
 
+	// Hago esto para que me deje subir la misma foto de nuevo.
+	let file = document.querySelector("#file");
+	file.addEventListener("click", () => {
+		if(file.value != "") {
+			file.value = "";
+		}
+	})
+
 	cargarImagen();
 });
+
+function creacionCanvas() {
+
+	// Le resto el tamaño del navbar y footer.
+	canvas.height = window.innerHeight - navbarHeight - footerHeight;
+	canvas.width = window.innerWidth;
+
+	canvas2.height = window.innerHeight - navbarHeight - footerHeight;
+	canvas2.width = window.innerWidth;
+}
 
 function cargarImagen(e) {
   let input = document.querySelector('.input');
@@ -71,23 +92,30 @@ function procesarImagen(readerEvent, ctx) {
 
 	    let scale = Math.min(canvas.width / this.width, canvas.height / this.height);
 
-	    // Dibujo la imagen en el canvas.
+	    // Dibujo la imagen en el canvas. (esto lo ve el usuario)
 	    ctx.drawImage(this, 0, 0, this.width * scale, this.height * scale);
+
+	    // Segundo canvas con la verdadera resolución de la imagen. (esto no lo va a poder ver, es sólo para descargar la
+	    // verdadera resolución de la imagen)
+	    canvas2.width = this.width;
+	    canvas2.height = this.height;
+	    ctx2.drawImage(this, 0, 0, canvas2.width, canvas2.height);
 
 	    // Habilito el párrafo de Filtros:
 	    document.querySelector("#filtros").classList.remove("display-none");
 
 	    // Obtengo los datos de la imagen.
-	    let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+	    let imgData = ctx.getImageData(0, 0, this.width * scale, this.height * scale);
+	    let imgDataOculto = ctx2.getImageData(0, 0, this.width, this.height);
 
 	    let pixeles = imgData.data;
+	    let pixelesOculto = imgDataOculto.data;
 
-	    botonera(pixeles, imgData);
-
+	    botonera(pixeles, imgData, pixelesOculto, imgDataOculto);
 	}
 }
 
-function botonera(pixeles, imgData) {
+function botonera(pixeles, imgData, pixelesOculto, imgDataOculto) {
     let btnDescargar = document.querySelector("#descargar");
     btnDescargar.classList.remove("display-none");
     btnDescargar.addEventListener("click", () => {
@@ -97,68 +125,157 @@ function botonera(pixeles, imgData) {
     let btnFiltroNegativo = document.querySelector("#filtroNegativo");
     btnFiltroNegativo.classList.remove("display-none");
     btnFiltroNegativo.addEventListener("click", () => {
-    	filtroNegativo(pixeles, imgData);
+    	filtroNegativo(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 
     let btnFiltroSepia = document.querySelector("#filtroSepia");
     btnFiltroSepia.classList.remove("display-none");
     btnFiltroSepia.addEventListener("click", () => {
-    	filtroSepia(pixeles, imgData);
+    	filtroSepia(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 
     let btnFiltroGris = document.querySelector("#filtroGris");
     btnFiltroGris.classList.remove("display-none");
     btnFiltroGris.addEventListener("click", () => {
-    	filtroGris(pixeles, imgData);
+    	filtroGris(pixeles, imgData, pixelesOculto, imgDataOculto);
+    	esconderBotonesFiltros();
+    })
+
+    let btnFiltroBrillo = document.querySelector("#filtroBrillo");
+    btnFiltroBrillo.classList.remove("display-none");
+    btnFiltroBrillo.addEventListener("click", () => {
+    	filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto);
+    	esconderBotonesFiltros();
+    })
+
+    let btnFiltroOscuro = document.querySelector("#filtroOscuro");
+    btnFiltroOscuro.classList.remove("display-none");
+    btnFiltroOscuro.addEventListener("click", () => {
+    	filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 }
 
+function filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto) {
+
+	for(let i = 0; i < pixeles.length; i += 4) {
+		pixeles[i] -= 100; // R
+	    pixeles[i + 1] -= 100; // G
+	    pixeles[i + 2] -= 100; // B
+	  }
+
+	ctx.putImageData(imgData, 0, 0);
+
+	for(let i = 0; i < pixelesOculto.length; i += 4) {
+		pixelesOculto[i] -= 100; // R
+	    pixelesOculto[i + 1] -= 100; // G
+	    pixelesOculto[i + 2] -= 100; // B
+	  }
+
+	ctx2.putImageData(imgDataOculto, 0, 0);
+}
+
+function filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto) {
+	// El valor por defecto del contraste es 100.
+	let constraste = 100;
+	let factor = ( 259 * ( constraste + 255 ) ) / ( 255 * ( 259 - constraste ) );
+ 
+    for (let i = 0; i < pixeles.length; i++) {
+        let r = pixeles[i * 4];
+        let g = pixeles[i * 4 + 1];
+        let b = pixeles[i * 4 + 2];
+ 
+        pixeles[i * 4] = factor * ( r - 128 ) + 128;
+        pixeles[i * 4 + 1] = factor * ( g - 128 ) + 128;
+        pixeles[i * 4 + 2] = factor * ( b - 128 ) + 128;
+    }
+ 
+    ctx.putImageData(imgData, 0, 0);
+
+    for (let i = 0; i < pixelesOculto.length; i++) {
+        let r = pixelesOculto[i * 4];
+        let g = pixelesOculto[i * 4 + 1];
+        let b = pixelesOculto[i * 4 + 2];
+ 
+        pixelesOculto[i * 4] = factor * ( r - 128 ) + 128;
+        pixelesOculto[i * 4 + 1] = factor * ( g - 128 ) + 128;
+        pixelesOculto[i * 4 + 2] = factor * ( b - 128 ) + 128;
+    }
+ 
+    ctx2.putImageData(imgDataOculto, 0, 0);
+}
+
 function descargar(btnDescargar) {
-	let image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+	let image = canvas2.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
 
 	btnDescargar.download = "mi-imagen.png";
 	btnDescargar.href = image;
-	btnDescargar.click();
 }
 
-function filtroGris(pixeles, imgData) {
+function filtroGris(pixeles, imgData, pixelesOculto, imgDataOculto) {
     for (let i = 0; i < pixeles.length; i += 4) {
-      let greyscale = (pixeles[i] + pixeles[i+1] + pixeles[i+2]) / 3;
-      pixeles[i] = greyscale;
-      pixeles[i+1] = greyscale;
-      pixeles[i+2] = greyscale;
-      pixeles[i+3] = 255;
+    	let greyscale = (pixeles[i] + pixeles[i+1] + pixeles[i+2]) / 3;
+      	pixeles[i] = greyscale;
+      	pixeles[i+1] = greyscale;
+      	pixeles[i+2] = greyscale;
+      	pixeles[i+3] = 255;
     }
 
     // Inserto la imagen nueva con el filtro gris.
     ctx.putImageData(imgData, 0, 0);
+
+    for (let i = 0; i < pixelesOculto.length; i += 4) {
+    	let greyscale = (pixelesOculto[i] + pixelesOculto[i+1] + pixelesOculto[i+2]) / 3;
+      	pixelesOculto[i] = greyscale;
+      	pixelesOculto[i+1] = greyscale;
+      	pixelesOculto[i+2] = greyscale;
+      	pixelesOculto[i+3] = 255;
+    }
+    ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function filtroSepia(pixeles, imgData) {
+function filtroSepia(pixeles, imgData, pixelesOculto, imgDataOculto) {
 	for (let i = 0; i < pixeles.length; i += 4) {
-	  // Calcula la luminosidad percibida para este pixel
-	  let luminosidad = .3 * pixeles[i] + .6 * pixeles[i + 1] + .1 * pixeles[i + 2];
-	  pixeles[i] = Math.min(luminosidad + 40, 255); // R
-	  pixeles[i + 1] = Math.min(luminosidad + 15, 255); // G
-	  pixeles[i + 2] = luminosidad; // B																
+	  	// Calcula la luminosidad percibida para este pixel
+	  	let luminosidad = .3 * pixeles[i] + .6 * pixeles[i + 1] + .1 * pixeles[i + 2];
+	  	pixeles[i] = Math.min(luminosidad + 40, 255); // R
+	  	pixeles[i + 1] = Math.min(luminosidad + 15, 255); // G
+	  	pixeles[i + 2] = luminosidad; // B																
 	}
 
 	// Imagen con filtro.
 	ctx.putImageData(imgData, 0, 0);
+
+	for (let i = 0; i < pixelesOculto.length; i += 4) {
+	  	// Calcula la luminosidad percibida para este pixel
+	  	let luminosidad = .3 * pixelesOculto[i] + .6 * pixelesOculto[i + 1] + .1 * pixelesOculto[i + 2];
+	  	pixelesOculto[i] = Math.min(luminosidad + 40, 255); // R
+	  	pixelesOculto[i + 1] = Math.min(luminosidad + 15, 255); // G
+	  	pixelesOculto[i + 2] = luminosidad; // B																
+	}
+
+	ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function filtroNegativo(pixeles, imgData) {
+function filtroNegativo(pixeles, imgData, pixelesOculto, imgDataOculto) {
     for (let i = 0; i < pixeles.length; i += 4) {
-      pixeles[i] = 255 - pixeles[i]; // R
-      pixeles[i + 1] = 255 - pixeles[i + 1]; // G
-      pixeles[i + 2] = 255 - pixeles[i + 2]; // B
+     	pixeles[i] = 255 - pixeles[i]; // R
+     	 pixeles[i + 1] = 255 - pixeles[i + 1]; // G
+     	 pixeles[i + 2] = 255 - pixeles[i + 2]; // B
     }
 
     // Imagen con filtro.
     ctx.putImageData(imgData, 0, 0);
+
+    for (let i = 0; i < pixelesOculto.length; i += 4) {
+     	pixelesOculto[i] = 255 - pixelesOculto[i]; // R
+     	pixelesOculto[i + 1] = 255 - pixelesOculto[i + 1]; // G
+     	pixelesOculto[i + 2] = 255 - pixelesOculto[i + 2]; // B
+    }
+
+    ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
 function limpiarHoja() {
@@ -186,6 +303,8 @@ function esconderBotonesFiltros() {
 
 function comenzarBorrado(e) {
 	goma();
+	document.body.classList.remove("lapiz");
+	document.body.classList.add("goma");
 	canvas.addEventListener("mousedown", posicionInicioBorrado);
 	canvas.addEventListener("mouseup", posicionFinalizado);
 	canvas.addEventListener("mousemove", dibujo);
@@ -193,6 +312,8 @@ function comenzarBorrado(e) {
 
 function comenzarDibujo(e) {
 	lapiz();
+	document.body.classList.remove("goma");
+	document.body.classList.add("lapiz");
 	canvas.addEventListener("mousedown", posicionInicioDibujo);
 	canvas.addEventListener("mouseup", posicionFinalizado);
 	canvas.addEventListener("mousemove", dibujo);
