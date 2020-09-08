@@ -87,8 +87,12 @@ function procesarImagen(readerEvent, ctx) {
 
 	image.src = content;
 
+	cargandoImagen();
+	
 	// Espera a que la imagen se cargue en la página para ejecutar la función.
 	image.onload = function () {
+
+		limpiarHoja();
 
 	    let scale = Math.min(canvas.width / this.width, canvas.height / this.height);
 
@@ -113,6 +117,13 @@ function procesarImagen(readerEvent, ctx) {
 
 	    botonera(pixeles, imgData, pixelesOculto, imgDataOculto);
 	}
+}
+
+function cargandoImagen() {
+
+	ctx.font = "30px Arial";
+	ctx.textAlign = "center";
+	ctx.fillText("Subiendo imagen..", (canvas.width/2), 100);
 }
 
 function botonera(pixeles, imgData, pixelesOculto, imgDataOculto) {
@@ -155,7 +166,7 @@ function botonera(pixeles, imgData, pixelesOculto, imgDataOculto) {
     })
 }
 
-function mostrarBotonesFiltros() {
+function mostrarBotonesFiltros(btnDescargar) {
 	let boxCanvas = document.querySelector(".box-canvas");
 	let allBotonesFiltros = boxCanvas.querySelectorAll("button");
 
@@ -213,7 +224,7 @@ function filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto) {
     ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function descargar(btnDescargar) {
+function descargar() {
 	let image = canvas2.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
 
 	btnDescargar.download = "mi-imagen.png";
