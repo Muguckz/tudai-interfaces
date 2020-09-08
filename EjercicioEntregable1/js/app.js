@@ -116,46 +116,52 @@ function procesarImagen(readerEvent, ctx) {
 }
 
 function botonera(pixeles, imgData, pixelesOculto, imgDataOculto) {
+
+	mostrarBotonesFiltros();
+
     let btnDescargar = document.querySelector("#descargar");
-    btnDescargar.classList.remove("display-none");
     btnDescargar.addEventListener("click", () => {
     	descargar(btnDescargar);
     })
 
     let btnFiltroNegativo = document.querySelector("#filtroNegativo");
-    btnFiltroNegativo.classList.remove("display-none");
     btnFiltroNegativo.addEventListener("click", () => {
     	filtroNegativo(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 
     let btnFiltroSepia = document.querySelector("#filtroSepia");
-    btnFiltroSepia.classList.remove("display-none");
     btnFiltroSepia.addEventListener("click", () => {
     	filtroSepia(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 
     let btnFiltroGris = document.querySelector("#filtroGris");
-    btnFiltroGris.classList.remove("display-none");
     btnFiltroGris.addEventListener("click", () => {
     	filtroGris(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 
     let btnFiltroBrillo = document.querySelector("#filtroBrillo");
-    btnFiltroBrillo.classList.remove("display-none");
     btnFiltroBrillo.addEventListener("click", () => {
     	filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
 
     let btnFiltroOscuro = document.querySelector("#filtroOscuro");
-    btnFiltroOscuro.classList.remove("display-none");
     btnFiltroOscuro.addEventListener("click", () => {
     	filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto);
     	esconderBotonesFiltros();
     })
+}
+
+function mostrarBotonesFiltros() {
+	let boxCanvas = document.querySelector(".box-canvas");
+	let allBotonesFiltros = boxCanvas.querySelectorAll("button");
+
+	for(let i = 0; i < allBotonesFiltros.length; i++) {
+		allBotonesFiltros[i].classList.remove("display-none");
+	}
 }
 
 function filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto) {
@@ -282,10 +288,6 @@ function limpiarHoja() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	esconderBotonesFiltros();
-
-	// Reestablezco el tamaño del canvas.
-	canvas.height = window.innerHeight - navbarHeight - footerHeight;
-	canvas.width = window.innerWidth;
 }
 
 function esconderBotonesFiltros() {
@@ -303,8 +305,6 @@ function esconderBotonesFiltros() {
 
 function comenzarBorrado(e) {
 	goma();
-	document.body.classList.remove("lapiz");
-	document.body.classList.add("goma");
 	canvas.addEventListener("mousedown", posicionInicioBorrado);
 	canvas.addEventListener("mouseup", posicionFinalizado);
 	canvas.addEventListener("mousemove", dibujo);
@@ -312,8 +312,6 @@ function comenzarBorrado(e) {
 
 function comenzarDibujo(e) {
 	lapiz();
-	document.body.classList.remove("goma");
-	document.body.classList.add("lapiz");
 	canvas.addEventListener("mousedown", posicionInicioDibujo);
 	canvas.addEventListener("mouseup", posicionFinalizado);
 	canvas.addEventListener("mousemove", dibujo);
@@ -321,19 +319,26 @@ function comenzarDibujo(e) {
 
 function definirColor(c) {
 	color = c;
+	// Llamo a lapiz para actualizar el color
+	lapiz();
 }
 
 function definirGrosorLapiz(g) {
 	grosorLapiz = g;
+	// Llamo a lapiz para actualizar el grosor
+	lapiz();
 }
 
 function definirGrosorGoma(g) {
 	grosorGoma = g;
+	// Llamo a goma para actualizar el grosor
+	goma();
 }
 
 function posicionInicioDibujo(e) {
 	dibujando = true;
 	borrando = false;
+	// Llamo a la función para que empiece a dibujar si hace un clic, es decir que dibuje un punto si fuera necesario.
 	dibujo(e);
 }
 
@@ -351,14 +356,13 @@ function posicionFinalizado() {
 }
 
 function dibujo(e) {
+
 	if(dibujando) {
 		// Le debo restar la altura del menú.
 		ctx.lineTo(e.clientX, e.clientY - navbarHeight);
-		// ctx.strokeStyle = color;
 		ctx.stroke();
 		ctx.beginPath();
 		ctx.moveTo(e.clientX, e.clientY - navbarHeight);
-		// console.log(dibujando);
 	}
 
 	if(borrando) {
@@ -371,11 +375,17 @@ function dibujo(e) {
 }
 
 function lapiz() {
+	document.body.classList.add("lapiz");
+	document.body.classList.remove("goma");
 	ctx.lineWidth = grosorLapiz;
 	ctx.strokeStyle = color;
+	ctx.lineCap = "round";
 }
 
 function goma() {
+	document.body.classList.remove("lapiz");
+	document.body.classList.add("goma");
 	ctx.lineWidth = grosorGoma;
 	ctx.strokeStyle = "white";
+	ctx.lineCap = "round";
 }
