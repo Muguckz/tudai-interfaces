@@ -222,7 +222,7 @@ function filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto) {
 function filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto) {
 	// El valor por defecto del contraste es 100.
 	let constraste = 100;
-	let factor = ( 259 * ( cantidadBrillo + 255 ) ) / ( 255 * ( 259 - cantidadBrillo ) );
+	let factor = ( 259 * ( constraste + 255 ) ) / ( 255 * ( 259 - constraste ) );
  
     for (let i = 0; i < pixeles.length; i++) {
         let r = pixeles[i * 4];
