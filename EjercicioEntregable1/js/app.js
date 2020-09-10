@@ -2,8 +2,8 @@
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const canvas2 = document.querySelector("#canvas2");
-const ctx2 = canvas2.getContext("2d");
+// const canvas2 = document.querySelector("#canvas2");
+// const ctx2 = canvas2.getContext("2d");
 
 let dibujando = false;
 let borrando = false;
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let nuevaHoja = document.querySelector("#nuevaHoja");
 	nuevaHoja.addEventListener("click", () => {
+		esconderBotonesFiltros();
 		limpiarHoja();
 		// Reseteo el valor del file.
 		document.querySelector("#Inputfile").value = "";
@@ -46,7 +47,29 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 		cargarImagen();
 	})
+
+	let btnDescargar = document.querySelector("#descargar");
+    btnDescargar.addEventListener("click", () => {
+    	descargar(btnDescargar);
+    })
 });
+
+function resetImage(imgOriginal) {
+	 let scale = Math.min(canvas.width / imgOriginal.width, canvas.height / imgOriginal.height);
+	 ctx.drawImage(imgOriginal, 0, 0, imgOriginal.width * scale, imgOriginal.height * scale);
+}
+
+function getImgData(imgOriginal) {
+	let scale = Math.min(canvas.width / imgOriginal.width, canvas.height / imgOriginal.height);
+	let imgData = ctx.getImageData(0, 0, imgOriginal.width * scale, imgOriginal.height * scale);
+	return imgData;
+}
+
+function infoCargandoImagen() {
+	ctx.font = "30px Arial";
+	ctx.textAlign = "center";
+	ctx.fillText("Subiendo imagen..", (canvas.width/2), 100);
+}
 
 function creacionCanvas() {
 
@@ -81,12 +104,14 @@ function procesarImagen(readerEvent) {
 
 	image.src = content;
 
-	cargandoImagen();
+	infoCargandoImagen();
 
 	// Espera a que la imagen se cargue en la página para ejecutar la función.
 	image.onload = function () {
 
 		limpiarHoja();
+
+		let imgOriginal = this;
 
 	    let scale = Math.min(canvas.width / this.width, canvas.height / this.height);
 
@@ -95,31 +120,19 @@ function procesarImagen(readerEvent) {
 
 	    // Segundo canvas con la verdadera resolución de la imagen. (esto no lo va a poder ver, es sólo para descargar la
 	    // verdadera resolución de la imagen)
-	    canvas2.width = this.width;
-	    canvas2.height = this.height;
-	    ctx2.drawImage(this, 0, 0, canvas2.width, canvas2.height);
+	    // canvas2.width = this.width;
+	    // canvas2.height = this.height;
+	    // ctx2.drawImage(this, 0, 0, canvas2.width, canvas2.height);
 
-	    // Habilito el párrafo de Filtros:
-	    document.querySelector("#filtros").classList.remove("display-none");
+	    // let imgDataOculto = ctx2.getImageData(0, 0, this.width, this.height);
 
-	    // Obtengo los datos de la imagen.
-	    let imgData = ctx.getImageData(0, 0, this.width * scale, this.height * scale);
-	    let imgDataOculto = ctx2.getImageData(0, 0, this.width, this.height);
+	    // let pixelesOculto = imgDataOculto.data;
 
-	    let pixeles = imgData.data;
-	    let pixelesOculto = imgDataOculto.data;
-
-	    botonera(pixeles, imgData, pixelesOculto, imgDataOculto);
+	    botonera(imgOriginal);
 	}
 }
 
-function cargandoImagen() {
-	ctx.font = "30px Arial";
-	ctx.textAlign = "center";
-	ctx.fillText("Subiendo imagen..", (canvas.width/2), 100);
-}
-
-function botonera(pixeles, imgData, pixelesOculto, imgDataOculto) {
+function botonera(imgOriginal) {
 
 	mostrarBotonesFiltros();
 
@@ -127,55 +140,58 @@ function botonera(pixeles, imgData, pixelesOculto, imgDataOculto) {
 	// correctamente y cuando subo una y luego subo otra y le doy un filtro, aparecen las dos (la primera abajo de la segunda)
 	// y con esta limpieza que hago en todos los clics de los filtros anda bien.
 
-    let btnDescargar = document.querySelector("#descargar");
-    btnDescargar.addEventListener("click", () => {
-    	descargar(btnDescargar);
-    })
-
     let btnFiltroNegativo = document.querySelector("#filtroNegativo");
     btnFiltroNegativo.addEventListener("click", () => {
     	limpiarHoja();
-    	filtroNegativo(pixeles, imgData, pixelesOculto, imgDataOculto);
-    	esconderBotonesFiltros();
+    	resetImage(imgOriginal);
+    	filtroNegativo(imgOriginal);
     })
 
     let btnFiltroSepia = document.querySelector("#filtroSepia");
     btnFiltroSepia.addEventListener("click", () => {
     	limpiarHoja();
-    	filtroSepia(pixeles, imgData, pixelesOculto, imgDataOculto);
-    	esconderBotonesFiltros();
+    	resetImage(imgOriginal)
+    	filtroSepia(imgOriginal);
     })
 
     let btnFiltroGris = document.querySelector("#filtroGris");
     btnFiltroGris.addEventListener("click", () => {
     	limpiarHoja();
-    	filtroGris(pixeles, imgData, pixelesOculto, imgDataOculto);
-    	esconderBotonesFiltros();
+    	resetImage(imgOriginal)
+    	filtroGris(imgOriginal);
     })
 
     let btnFiltroBrillo = document.querySelector("#filtroBrillo");
     btnFiltroBrillo.addEventListener("click", () => {
     	limpiarHoja();
-    	filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto);
-    	esconderBotonesFiltros();
+    	resetImage(imgOriginal)
+    	filtroBrillo(imgOriginal);
     })
 
     let btnFiltroOscuro = document.querySelector("#filtroOscuro");
     btnFiltroOscuro.addEventListener("click", () => {
     	limpiarHoja();
-    	filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto);
-    	esconderBotonesFiltros();
+    	resetImage(imgOriginal)
+    	filtroOscuro(imgOriginal);
     })
 
     let btnFiltroSaturacion = document.querySelector("#filtroSaturacion");
     btnFiltroSaturacion.addEventListener("click", () => {
     	limpiarHoja();
-    	filtroSaturacion(pixeles, imgData, pixelesOculto, imgDataOculto);
-    	esconderBotonesFiltros();
+    	resetImage(imgOriginal)
+    	filtroSaturacion(imgOriginal);
     })
 }
 
-function filtroSaturacion(pixeles, imgData) {
+function descargar(btnDescargar) {
+	let image = canvas.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
+	btnDescargar.download = "mi-imagen.png";
+	btnDescargar.href = image;
+}
+
+function filtroSaturacion(imgOriginal) {
+	let imgData = getImgData(imgOriginal);
+	let pixeles = imgData.data;
 	let value = 1;
    	for (let i = 0; i < pixeles.length; i += 4) {
     	let r = pixeles[i]; 
@@ -190,16 +206,10 @@ function filtroSaturacion(pixeles, imgData) {
    	ctx.putImageData(imgData, 0, 0);
 }
 
-function mostrarBotonesFiltros(btnDescargar) {
-	let boxCanvas = document.querySelector(".box-canvas");
-	let allBotonesFiltros = boxCanvas.querySelectorAll("button");
 
-	for(let i = 0; i < allBotonesFiltros.length; i++) {
-		allBotonesFiltros[i].classList.remove("display-none");
-	}
-}
-
-function filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto) {
+function filtroOscuro(imgOriginal) {
+	let imgData = getImgData(imgOriginal);
+	let pixeles = imgData.data;
 
 	for(let i = 0; i < pixeles.length; i += 4) {
 		pixeles[i] -= 100; // R
@@ -210,19 +220,22 @@ function filtroOscuro(pixeles, imgData, pixelesOculto, imgDataOculto) {
 
 	ctx.putImageData(imgData, 0, 0);
 
-	for(let i = 0; i < pixelesOculto.length; i += 4) {
-		pixelesOculto[i] -= 100; // R
-	    pixelesOculto[i + 1] -= 100; // G
-	    pixelesOculto[i + 2] -= 100; // B
-	  }
+	// for(let i = 0; i < pixelesOculto.length; i += 4) {
+	// 	pixelesOculto[i] -= 100; // R
+	//     pixelesOculto[i + 1] -= 100; // G
+	//     pixelesOculto[i + 2] -= 100; // B
+	//   }
 
-	ctx2.putImageData(imgDataOculto, 0, 0);
+	// ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto) {
-	// El valor por defecto del contraste es 100.
-	let constraste = 100;
-	let factor = ( 259 * ( constraste + 255 ) ) / ( 255 * ( 259 - constraste ) );
+function filtroBrillo(imgOriginal) {
+	let imgData = getImgData(imgOriginal);
+	let pixeles = imgData.data;
+
+	let cantidadBrillo = document.querySelector("#cantidadBrillo").value;
+
+	let factor = ( 259 * ( cantidadBrillo + 255 ) ) / ( 255 * ( 259 - cantidadBrillo ) );
  
     for (let i = 0; i < pixeles.length; i++) {
         let r = pixeles[i * 4];
@@ -236,27 +249,24 @@ function filtroBrillo(pixeles, imgData, pixelesOculto, imgDataOculto) {
 
     ctx.putImageData(imgData, 0, 0);
 
-    for (let i = 0; i < pixelesOculto.length; i++) {
-        let r = pixelesOculto[i * 4];
-        let g = pixelesOculto[i * 4 + 1];
-        let b = pixelesOculto[i * 4 + 2];
+    // for (let i = 0; i < pixelesOculto.length; i++) {
+    //     let r = pixelesOculto[i * 4];
+    //     let g = pixelesOculto[i * 4 + 1];
+    //     let b = pixelesOculto[i * 4 + 2];
  
-        pixelesOculto[i * 4] = factor * ( r - 128 ) + 128;
-        pixelesOculto[i * 4 + 1] = factor * ( g - 128 ) + 128;
-        pixelesOculto[i * 4 + 2] = factor * ( b - 128 ) + 128;
-    }
+    //     pixelesOculto[i * 4] = factor * ( r - 128 ) + 128;
+    //     pixelesOculto[i * 4 + 1] = factor * ( g - 128 ) + 128;
+    //     pixelesOculto[i * 4 + 2] = factor * ( b - 128 ) + 128;
+    // }
  
-    ctx2.putImageData(imgDataOculto, 0, 0);
+    // ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function descargar(btnDescargar) {
-	let image = canvas2.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
 
-	btnDescargar.download = "mi-imagen.png";
-	btnDescargar.href = image;
-}
+function filtroGris(imgOriginal) {
+	let imgData = getImgData(imgOriginal);
+	let pixeles = imgData.data;
 
-function filtroGris(pixeles, imgData, pixelesOculto, imgDataOculto) {
     for (let i = 0; i < pixeles.length; i += 4) {
     	let greyscale = (pixeles[i] + pixeles[i+1] + pixeles[i+2]) / 3;
       	pixeles[i] = greyscale;
@@ -268,17 +278,20 @@ function filtroGris(pixeles, imgData, pixelesOculto, imgDataOculto) {
     // Inserto la imagen nueva con el filtro gris.
     ctx.putImageData(imgData, 0, 0);
 
-    for (let i = 0; i < pixelesOculto.length; i += 4) {
-    	let greyscale = (pixelesOculto[i] + pixelesOculto[i+1] + pixelesOculto[i+2]) / 3;
-      	pixelesOculto[i] = greyscale;
-      	pixelesOculto[i+1] = greyscale;
-      	pixelesOculto[i+2] = greyscale;
-      	pixelesOculto[i+3] = 255;
-    }
-    ctx2.putImageData(imgDataOculto, 0, 0);
+    // for (let i = 0; i < pixelesOculto.length; i += 4) {
+    // 	let greyscale = (pixelesOculto[i] + pixelesOculto[i+1] + pixelesOculto[i+2]) / 3;
+    //   	pixelesOculto[i] = greyscale;
+    //   	pixelesOculto[i+1] = greyscale;
+    //   	pixelesOculto[i+2] = greyscale;
+    //   	pixelesOculto[i+3] = 255;
+    // }
+    // ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function filtroSepia(pixeles, imgData, pixelesOculto, imgDataOculto) {
+function filtroSepia(imgOriginal) {
+	let imgData = getImgData(imgOriginal);
+	let pixeles = imgData.data;
+
 	for (let i = 0; i < pixeles.length; i += 4) {
 	  	// Calcula la luminosidad percibida para este pixel
 	  	let luminosidad = .3 * pixeles[i] + .6 * pixeles[i + 1] + .1 * pixeles[i + 2];
@@ -290,18 +303,21 @@ function filtroSepia(pixeles, imgData, pixelesOculto, imgDataOculto) {
 	// Imagen con filtro.
 	ctx.putImageData(imgData, 0, 0);
 
-	for (let i = 0; i < pixelesOculto.length; i += 4) {
-	  	// Calcula la luminosidad percibida para este pixel
-	  	let luminosidad = .3 * pixelesOculto[i] + .6 * pixelesOculto[i + 1] + .1 * pixelesOculto[i + 2];
-	  	pixelesOculto[i] = Math.min(luminosidad + 40, 255); // R
-	  	pixelesOculto[i + 1] = Math.min(luminosidad + 15, 255); // G
-	  	pixelesOculto[i + 2] = luminosidad; // B																
-	}
+	// for (let i = 0; i < pixelesOculto.length; i += 4) {
+	//   	// Calcula la luminosidad percibida para este pixel
+	//   	let luminosidad = .3 * pixelesOculto[i] + .6 * pixelesOculto[i + 1] + .1 * pixelesOculto[i + 2];
+	//   	pixelesOculto[i] = Math.min(luminosidad + 40, 255); // R
+	//   	pixelesOculto[i + 1] = Math.min(luminosidad + 15, 255); // G
+	//   	pixelesOculto[i + 2] = luminosidad; // B																
+	// }
 
-	ctx2.putImageData(imgDataOculto, 0, 0);
+	// ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function filtroNegativo(pixeles, imgData, pixelesOculto, imgDataOculto) {
+function filtroNegativo(imgOriginal) {
+	let imgData = getImgData(imgOriginal);
+	let pixeles = imgData.data;
+
     for (let i = 0; i < pixeles.length; i += 4) {
      	pixeles[i] = 255 - pixeles[i]; // R
      	 pixeles[i + 1] = 255 - pixeles[i + 1]; // G
@@ -311,46 +327,37 @@ function filtroNegativo(pixeles, imgData, pixelesOculto, imgDataOculto) {
     // Imagen con filtro.
     ctx.putImageData(imgData, 0, 0);
 
-    for (let i = 0; i < pixelesOculto.length; i += 4) {
-     	pixelesOculto[i] = 255 - pixelesOculto[i]; // R
-     	pixelesOculto[i + 1] = 255 - pixelesOculto[i + 1]; // G
-     	pixelesOculto[i + 2] = 255 - pixelesOculto[i + 2]; // B
-    }
+    // for (let i = 0; i < pixelesOculto.length; i += 4) {
+    //  	pixelesOculto[i] = 255 - pixelesOculto[i]; // R
+    //  	pixelesOculto[i + 1] = 255 - pixelesOculto[i + 1]; // G
+    //  	pixelesOculto[i + 2] = 255 - pixelesOculto[i + 2]; // B
+    // }
 
-    ctx2.putImageData(imgDataOculto, 0, 0);
+    // ctx2.putImageData(imgDataOculto, 0, 0);
 }
 
-function limpiarHoja() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+function mostrarBotonesFiltros(btnDescargar) {
+	let boxCanvas = document.querySelector(".box-canvas");
+	let allBotonesFiltros = boxCanvas.querySelectorAll("button");
+	let boxBrillo = boxCanvas.querySelector("#boxBrillo");
 
-	esconderBotonesFiltros();
+	boxBrillo.classList.remove("display-none");
+
+	for(let i = 0; i < allBotonesFiltros.length; i++) {
+		allBotonesFiltros[i].classList.remove("display-none");
+	}
 }
 
 function esconderBotonesFiltros() {
 	let boxCanvas = document.querySelector(".box-canvas");
 	let allBotonesFiltros = boxCanvas.querySelectorAll("button");
+	let boxBrillo = boxCanvas.querySelector("#boxBrillo");
+
+	boxBrillo.classList.add("display-none");
 
 	for(let i = 0; i < allBotonesFiltros.length; i++) {
 		allBotonesFiltros[i].classList.add("display-none");
 	}
-
-	// Deshabilito el párrafo de Filtros:
-	document.querySelector("#filtros").classList.add("display-none");
-
-}
-
-function comenzarBorrado(e) {
-	goma();
-	canvas.addEventListener("mousedown", posicionInicioBorrado);
-	canvas.addEventListener("mouseup", posicionFinalizado);
-	canvas.addEventListener("mousemove", dibujo);
-}
-
-function comenzarDibujo(e) {
-	lapiz();
-	canvas.addEventListener("mousedown", posicionInicioDibujo);
-	canvas.addEventListener("mouseup", posicionFinalizado);
-	canvas.addEventListener("mousemove", dibujo);
 }
 
 function definirColor(c) {
@@ -362,7 +369,7 @@ function definirColor(c) {
 }
 
 function definirGrosorLapiz(g) {
-	grosorLapiz = g;
+	grosorLapiz = g
 	// Llamo a lapiz para actualizar el grosor
 	lapiz();
 	//Comienzo el dibujo si elige grosor
@@ -376,6 +383,22 @@ function definirGrosorGoma(g) {
 	//Comienzo el dibujo si elige grosor
 	comenzarBorrado();
 }
+
+function comenzarDibujo(e) {
+	lapiz();
+	canvas.addEventListener("mousedown", posicionInicioDibujo);
+	canvas.addEventListener("mouseup", posicionFinalizado);
+	canvas.addEventListener("mousemove", dibujo);
+}
+
+function comenzarBorrado(e) {
+	goma();
+	canvas.addEventListener("mousedown", posicionInicioBorrado);
+	canvas.addEventListener("mouseup", posicionFinalizado);
+	canvas.addEventListener("mousemove", dibujo);
+}
+
+
 
 function posicionInicioDibujo(e) {
 	dibujando = true;
@@ -430,4 +453,8 @@ function goma() {
 	ctx.lineWidth = grosorGoma;
 	ctx.strokeStyle = "white";
 	ctx.lineCap = "round";
+}
+
+function limpiarHoja() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
