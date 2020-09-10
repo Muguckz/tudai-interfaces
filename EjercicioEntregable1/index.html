@@ -44,11 +44,13 @@
 		<canvas id="canvas2" class="canvas display-none"></canvas>
 		<div class="botonera d-flex space-around align-center bg">
 			<a class="btn" id="descargar">Descargar</a>
-			<p class="display-none bold filtros" id="filtros">Filtros:</p>
 			<button id="filtroNegativo" class="display-none btn">Negativo</button>
 			<button id="filtroSepia" class="display-none btn">Sepia</button>
 			<button id="filtroGris" class="display-none btn">Gris</button>
-			<button id="filtroBrillo" class="display-none btn">Brillo</button>
+			<div class="d-flex align-center display-none" id="boxBrillo">
+				<button id="filtroBrillo" class="btn">Brillo</button>
+				<input type="range" id="cantidadBrillo" min="0" max="10" value="0">
+			</div>
 			<button id="filtroOscuro" class="display-none btn">Oscuro</button>
 			<button id="filtroSaturacion" class="display-none btn">Saturación</button>
 		</div>
