@@ -1,0 +1,9 @@
+class Partida {
+	constructor() {
+		
+	}
+
+	iniciarJuego() {
+		
+	}
+}
