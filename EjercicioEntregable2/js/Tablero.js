@@ -40,19 +40,19 @@ class Tablero {
 		return this.arrayCeldas;
 	}
 
-	insertarFicha(x, y) {
+	insertarFicha(x, y, partida) {
 		// Si hace clic en cualquier columna de la primer fila.
 		if (x >= 380 && x <= 900 && y >= 8 && y <= 65)
-			this.verificarCelda(x);
+			this.verificarCelda(x, partida);
 
 		
 	}
 
-	verificarCelda(x) {
+	verificarCelda(x, partida) {
 		let posArreglo = this.getPosArreglo(x);
-		let imgFicha = new Ficha(this.ctx);
 
 		let i = 7; // Cantidad de filas.
+		let ficha;
 
 		// Márgenes para ubicar bien las fichas.
 		let pixelX = 15;
@@ -64,7 +64,8 @@ class Tablero {
 			while (i > 0) {
 				// Si el objeto de esa posición está vacío.
 				if (this.getCeldas()[i + posArreglo - 1].vacio == true) {
-					let ficha = imgFicha.crearFichaRoja();
+
+					ficha = this.rotarTurno(partida, ficha);
 
 					ficha.onload = () => {
 						// Dibujo la ficha en esa posición y le sumo unos pixeles de margen para que queden bien posicionadas.
@@ -80,6 +81,19 @@ class Tablero {
 			}
 
 		}
+	}
+
+	rotarTurno(partida, ficha) {
+		let imgFicha = new Ficha(this.ctx);
+		if (partida.getTurno(true)) {
+			ficha = imgFicha.crearFichaRoja();
+			partida.setTurno(false);
+		} else {
+			ficha = imgFicha.crearFichaAzul();
+			partida.setTurno(true);
+		}
+
+		return ficha;
 	}
 
 	getPosArreglo(x) {

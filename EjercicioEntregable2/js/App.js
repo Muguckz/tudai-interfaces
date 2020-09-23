@@ -20,13 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
 	let tablero = new Tablero(ctx, Celda, arrayCeldas);
 	tablero.crearTablero();
 
+	let partida = new Partida(true);
+
 	let fichas = [];
 
 	crearFichasAzules(ctx, fichas);
 	crearFichasRojas(ctx, fichas);
 
 	canvas.addEventListener("mousedown", (e) => {
-		insertarFicha(e, tablero);
+		insertarFicha(e, tablero, partida);
 	})
 
 	// canvas.addEventListener("click", (e) => {
@@ -45,8 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function reiniciarPartida(tablero) {
-	tablero.eliminarDatosArreglo();
-	tablero.crearTablero();
+	let partida = new Partida();
+
+	partida.reiniciarPartida(tablero);
+	// tablero.eliminarDatosArreglo();
+	// tablero.crearTablero();
 }
 
 function buscarFichaClickeada(x, y, fichas) {
@@ -83,9 +88,9 @@ function crearFichasRojas(ctx, fichas) {
 	}
 }
 
-function insertarFicha(e, tablero) {
+function insertarFicha(e, tablero, partida) {
 	let x = e.layerX;
 	let y = e.layerY;
 
-	tablero.insertarFicha(x, y);
+	tablero.insertarFicha(x, y, partida);
 }

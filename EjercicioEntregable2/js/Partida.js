@@ -16,9 +16,8 @@ class Partida {
 		this.turno = valor;
 	}
 
-	reiniciarJuego() {
-		let tablero = new Tablero();
-
-		tablero.crearTablero
+	reiniciarPartida(tablero) {
+		tablero.eliminarDatosArreglo();
+		tablero.crearTablero();
 	}
 }
