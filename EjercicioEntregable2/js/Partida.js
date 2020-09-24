@@ -17,7 +17,12 @@ class Partida {
 	}
 
 	reiniciarPartida(tablero) {
-		tablero.eliminarDatosArreglo();
+		tablero.eliminarDatosMatriz();
 		tablero.crearTablero();
+	}
+
+	ganador(color, tablero) {
+		alert("Han ganado los " + color);
+		this.reiniciarPartida(tablero);
 	}
 }

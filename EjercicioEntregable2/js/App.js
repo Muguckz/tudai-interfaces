@@ -9,15 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	ctx.fillStyle = "gray";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-	let arrayCeldas = [];
+	let Celdas =[[0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0]]
 
-	let Celda = {
-	    ejeX: 0,
-	    ejeY: 0,
-	    vacio: true
-	};
+    let CeldasEjeX = [0,0,0,0,0,0,0,0]
 
-	let tablero = new Tablero(ctx, Celda, arrayCeldas);
+    let CeldasEjeY = [0,0,0,0,0,0,0]
+
+	let tablero = new Tablero(ctx, Celdas, CeldasEjeX, CeldasEjeY, 0, 0, 0, 0);
 	tablero.crearTablero();
 
 	let partida = new Partida(true);
@@ -66,7 +70,7 @@ function buscarFichaClickeada(x, y, fichas) {
 
 function crearFichasAzules(ctx, fichas) {
 	for (let i = 0; i < cantFichas; i++) {
-		let x = randomPos()
+		let x = randomPos();
 		let y = randomPos();
 		let ficha = new Ficha(ctx, x, y, 19);
 		fichas.push(ficha);
@@ -80,8 +84,8 @@ function randomPos() {
 
 function crearFichasRojas(ctx, fichas) {
 	for (let i = 0; i < cantFichas; i++) {
-		let x = Math.random() * 200;
-		let y = Math.random() * 200;
+		let x = randomPos();
+		let y = randomPos();
 		let ficha = new Ficha(ctx, x, y, 19);
 		fichas.push(ficha);
 		ficha.crearFichasRojas(x, y);
@@ -92,5 +96,5 @@ function insertarFicha(e, tablero, partida) {
 	let x = e.layerX;
 	let y = e.layerY;
 
-	tablero.insertarFicha(x, y, partida);
+	tablero.insertarFicha(x, y, partida, tablero);
 }
