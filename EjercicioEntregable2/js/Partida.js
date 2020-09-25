@@ -4,10 +4,6 @@ class Partida {
 		this.turno = valor;
 	}
 
-	iniciarJuego() {
-		
-	}
-
 	getTurno() {
 		return this.turno;
 	}
@@ -24,5 +20,18 @@ class Partida {
 	ganador(color, tablero) {
 		alert("Han ganado los " + color);
 		this.reiniciarPartida(tablero);
+	}
+
+	rotarTurno(partida, ficha) {
+		let imgFicha = new Ficha(this.ctx);
+		if (this.getTurno(true)) {
+			ficha = imgFicha.crearFichaRoja();
+			this.setTurno(false);
+		} else {
+			ficha = imgFicha.crearFichaAzul();
+			this.setTurno(true);
+		}
+
+		return ficha;
 	}
 }

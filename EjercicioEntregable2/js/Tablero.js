@@ -1,14 +1,12 @@
 class Tablero {
 
-	constructor(ctx, Celdas, CeldasEjeX, CeldasEjeY, contadorVerticalRojas, contadorVerticalAzules, contadorHorizontalRojas, contadorHorizontalAzules) {
+	constructor(ctx, Celdas, CeldasEjeX, CeldasEjeY, contadorVerticalRojas, contadorVerticalAzules) {
 		this.ctx = ctx;
 		this.Celdas = Celdas;
 		this.CeldasEjeX = CeldasEjeX;
 		this.CeldasEjeY = CeldasEjeY;
 		this.contadorVerticalRojas = contadorVerticalRojas;
 		this.contadorVerticalAzules = contadorVerticalAzules;
-		this.contadorHorizontalRojas = contadorHorizontalRojas;
-		this.contadorHorizontalAzules = contadorHorizontalAzules;
 	}
 
 	crearTablero() {
@@ -17,8 +15,9 @@ class Tablero {
 		let matriz = [];
 		let imgCelda = this.getImgCelda();
 		let x, y;
-		x = 370;
-		y = 8;
+		// x es el medio del canvas, donde empezará a dibujarse la tabla.
+		x = canvas.width / 2 - imgCelda.width*8/2;
+		y = 0;
 
 		for (let i = 0; i < cols; i++) {
 			matriz[i] = [];
@@ -27,10 +26,10 @@ class Tablero {
 				this.CeldasEjeY[j] = y;
 				this.CeldasEjeX[i] = x;
 
-				y += 60;
+				y += imgCelda.height;
 			}
-			y = 8;
-			x += 65;
+			y = 0;
+			x += imgCelda.width;
 		}
 
 		this.dibujarCeldas();
@@ -45,13 +44,11 @@ class Tablero {
 	}
 
 	dibujarCeldas() {
-		const cols = 8;
-		const rows = 7;
-		for (let i = 0; i < cols; i++) {
-			for (let j = 0; j < rows; j++) {
+		for (let x = 0; x < this.getCeldasEjeX().length; x++) {
+			for (let y = 0; y < this.getCeldasEjeY().length; y++) {
 				let imgCelda = this.getImgCelda();
 				imgCelda.onload = () => {
-					this.ctx.drawImage(imgCelda, this.getCeldasEjeX()[i], this.getCeldasEjeY()[j], imgCelda.width, imgCelda.height);
+					this.ctx.drawImage(imgCelda, this.getCeldasEjeX()[x], this.getCeldasEjeY()[y], imgCelda.width, imgCelda.height);
 				}
 			}
 		}
@@ -59,7 +56,7 @@ class Tablero {
 
 	insertarFicha(x, y, partida, tablero) {
 		// Si hace clic en cualquier columna de la primer fila.
-		if (x >= 380 && x <= 900 && y >= 8 && y <= 65) {
+		if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
 			this.verificarCelda(x, partida, tablero);
 		}
 	}
@@ -79,7 +76,8 @@ class Tablero {
 			// i vale 7, o sea la fila final de cada columna.
 			while (i > 0) {
 				if (this.Celdas[i-1][posColumna] == 0) {
-					ficha = this.rotarTurno(partida, ficha);
+
+					ficha = partida.rotarTurno(partida, ficha);
 
 					ficha.onload = () => {
 						// Dibujo la ficha en esa posición y le sumo unos pixeles de margen para que queden bien posicionadas.
@@ -91,10 +89,10 @@ class Tablero {
 
 					this.Celdas[i-1][posColumna] = colorFicha;
 
-					this.verificarGanadorColumna(posColumna, colorFicha, partida, tablero);
-					this.verificarGanadorFila(i-1, colorFicha, partida, tablero);
-
-					// Implementar verificadores verticales.
+					this.verificarGanadorVertical(posColumna, colorFicha, partida, tablero);
+					this.verificarGanadorHorizontal(colorFicha, partida, tablero);
+					this.verificarDiagonal(colorFicha, partida, tablero);
+					this.verificarDiagonal2(colorFicha, partida, tablero);
 
 					break;
 				} else {
@@ -104,42 +102,37 @@ class Tablero {
 		}
 	}
 
-	verificarColorFicha(partida) {
-		if (partida.getTurno() == false) {
-			return "Rojos";
-		} else {
-			return "Azules";
-		}
-	}
-
-	verificarGanadorFila(fila, colorFicha, partida, tablero) {
-		for (let i = 0; i < this.getCeldasEjeX().length - 1; i++) {
-
-			if (this.Celdas[fila][i] == "Rojos") {
-				this.contadorHorizontalRojas += 1;
-			} else {
-				this.contadorHorizontalRojas = 0;
-			}
-
-			if (this.Celdas[fila][i] == "Azules") {
-				this.contadorHorizontalAzules += 1;
-			} else {
-				this.contadorHorizontalAzules = 0;
-			}
-
-			if (this.contadorHorizontalRojas == 4) {
-				// console.log("Ganaron los: " + colorFicha);
-				// partida.reiniciarPartida(tablero);
-				partida.ganador(colorFicha, tablero);
-				break;
-			} else if (this.contadorHorizontalAzules == 4) {
-				partida.ganador(colorFicha, tablero);
-				break;
+	verificarDiagonal(colorFicha, partida, tablero) {
+	    for (let y = 0; y < this.getCeldasEjeY().length - 3; y++) {
+			for (let x = 0; x < this.getCeldasEjeX().length - 3; x++) {
+	   			if (this.Celdas[y][x] == colorFicha && this.Celdas[y+1][x+1] == colorFicha && this.Celdas[y+2][x+2] == colorFicha && this.Celdas[y+3][x+3] == colorFicha) {
+					partida.ganador(colorFicha, tablero);
+	   			} 
 			}
 		}
 	}
 
-	verificarGanadorColumna(columna, colorFicha, partida, tablero) {
+	verificarDiagonal2(colorFicha, partida, tablero) {
+        for (let y = 3; y < this.getCeldasEjeY().length; y++) {
+		    for (let x = 0; x < this.getCeldasEjeX().length - 3; x++) {
+		        if (this.Celdas[y][x] == colorFicha && this.Celdas[y-1][x+1] == colorFicha && this.Celdas[y-2][x+2] == colorFicha && this.Celdas[y-3][x+3] == colorFicha) {
+		        	partida.ganador(colorFicha, tablero);
+		    	}
+			}
+		}
+	}
+
+	verificarGanadorHorizontal(colorFicha, partida, tablero) {
+		for (let y = 0; y < this.getCeldasEjeY().length; y++) {
+			for (let x = 0; x < this.getCeldasEjeX().length - 3; x++) {
+				if (this.Celdas[y][x] == colorFicha && this.Celdas[y][x+1] == colorFicha && this.Celdas[y][x+2] == colorFicha && this.Celdas[y][x+3] == colorFicha) {
+					partida.ganador(colorFicha, tablero);
+				}
+			}
+		}
+	}
+
+	verificarGanadorVertical(columna, colorFicha, partida, tablero) {
 		for (let i = 0; i < this.getCeldasEjeY().length; i++) {
 			
 			// Cada vez que itera, pregunta si es una ficha roja o azul, le suma al contador correcto y sino la resetea.
@@ -167,26 +160,23 @@ class Tablero {
 		}
 	}
 
-	rotarTurno(partida, ficha) {
-		let imgFicha = new Ficha(this.ctx);
-		if (partida.getTurno(true)) {
-			ficha = imgFicha.crearFichaRoja();
-			partida.setTurno(false);
+	verificarColorFicha(partida) {
+		if (partida.getTurno() == false) {
+			return "Rojos";
 		} else {
-			ficha = imgFicha.crearFichaAzul();
-			partida.setTurno(true);
+			return "Azules";
 		}
-
-		return ficha;
 	}
 
 	getPosColumna(x) {
 
-		if (x > 380 && x < 430) {
+		// Retorno la posición de la columna.
+
+		if (x > 357 && x < 408) {
 			return 0;
 		}
 
-		else if (x > 445 && x < 500) {
+		else if (x > 432 && x < 484) {
 			return 1;
 		}
 
@@ -194,23 +184,23 @@ class Tablero {
 			return 2;
 		}
 
-		else if (x > 575 && x < 630) {
+		else if (x > 585 && x < 636) {
 			return 3;
 		}
 
-		else if (x > 640 && x < 690) {
+		else if (x > 661 && x < 712) {
 			return 4;
 		}
 
-		else if (x > 700 && x < 750) {
+		else if (x > 737 && x < 788) {
 			return 5;
 		}
 
-		else if (x > 770 && x < 820) {
+		else if (x > 813 && x < 863) {
 			return 6;
 		}
 
-		else if (x > 835 && x < 890) {
+		else if (x > 889 && x < 940) {
 			return 7;
 		} 
 
@@ -224,6 +214,8 @@ class Tablero {
 	getImgCelda() {
 		let imgCelda = new Image();
 		imgCelda.src = "images/Celda.png"; 
+		imgCelda.width = 76;
+		imgCelda.height = 68;
 		return imgCelda;
 	}
 

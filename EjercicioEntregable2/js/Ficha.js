@@ -1,9 +1,10 @@
 class Ficha {
 
-	constructor(ctx, x, y, radio) {
+	constructor(ctx, x, y, colorFicha, radio) {
 		this.ctx = ctx;
 		this.x = x;
 		this.y = y;
+		this.colorFicha = colorFicha;
 		this.radio = radio;
 	}
 	
@@ -22,8 +23,6 @@ class Ficha {
 		imgFichaRoja.onload = () => {
 			this.ctx.drawImage(imgFichaRoja, canvas.width - x - 50, y, imgFichaRoja.width/4, imgFichaRoja.height/4);
 		}
-
-
 	}
 
 	crearFichaRoja() {
@@ -38,10 +37,10 @@ class Ficha {
 		return ficha;
 	}
 
-	estaDentro(x, y) {
-		let _x = this.x - x;
-		let _y = this.y - y;
+	// estaDentro(x, y) {
+	// 	let _x = this.x - x;
+	// 	let _y = this.y - y;
 
-		return Math.sqrt(_x * _x + _y * _y) < this.radio;
-	}
+	// 	return Math.sqrt(_x * _x + _y * _y) < this.radio;
+	// }
 }

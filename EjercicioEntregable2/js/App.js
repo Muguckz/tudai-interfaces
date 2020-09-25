@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	let ctx = canvas.getContext("2d");
 	ctx.fillStyle = "gray";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	let lastClickedPiece = null;
+	let isMouseDown = false;
 
 	let Celdas =[[0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0],
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let CeldasEjeY = [0,0,0,0,0,0,0]
 
-	let tablero = new Tablero(ctx, Celdas, CeldasEjeX, CeldasEjeY, 0, 0, 0, 0);
+	let tablero = new Tablero(ctx, Celdas, CeldasEjeX, CeldasEjeY, 0, 0);
 	tablero.crearTablero();
 
 	let partida = new Partida(true);
@@ -54,41 +56,40 @@ function reiniciarPartida(tablero) {
 	let partida = new Partida();
 
 	partida.reiniciarPartida(tablero);
-	// tablero.eliminarDatosArreglo();
-	// tablero.crearTablero();
 }
 
-function buscarFichaClickeada(x, y, fichas) {
-	for (let i = 0; i < fichas.length; i++) {
-		const elemento = fichas[i];
-		if (elemento.estaDentro(x, y)) {
-			return elemento;
-			console.log(x);
-		}
-	}
-}
+// function buscarFichaClickeada(x, y, fichas) {
+// 	for (let i = 0; i < fichas.length; i++) {
+// 		const elemento = fichas[i];
+// 		if (elemento.estaDentro(x, y)) {
+// 			return elemento;
+// 		}
+// 	}
+// }
 
 function crearFichasAzules(ctx, fichas) {
+	let colorFicha = 'blue';
+
 	for (let i = 0; i < cantFichas; i++) {
-		let x = randomPos();
-		let y = randomPos();
-		let ficha = new Ficha(ctx, x, y, 19);
+		let x = Math.random() * 200;
+		let y = Math.random() * 250;
+		let ficha = new Ficha(ctx, x, y, colorFicha, 20);
 		fichas.push(ficha);
 		ficha.crearFichasAzules(x, y);
+		// ficha.dibujarFichas();
 	}
-}
-
-function randomPos() {
-	return Math.random() * 200;
 }
 
 function crearFichasRojas(ctx, fichas) {
+	let colorFicha = 'red';
+
 	for (let i = 0; i < cantFichas; i++) {
-		let x = randomPos();
-		let y = randomPos();
-		let ficha = new Ficha(ctx, x, y, 19);
+		let x =  Math.random() * 200;
+		let y =  Math.random() * 250;
+		let ficha = new Ficha(ctx, x, y, colorFicha, 20);
 		fichas.push(ficha);
 		ficha.crearFichasRojas(x, y);
+		// ficha.dibujarFichas();
 	}
 }
 
