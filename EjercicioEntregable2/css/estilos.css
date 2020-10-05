@@ -1,0 +1,49 @@
+.box {
+	/*margin-top: 55px;*/
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+button {
+	padding: 20px;
+	transition: 0.5s;
+	background: dodgerblue;
+	border: 1px solid gray;
+	color: white;
+	cursor: pointer;
+}
+
+button:hover {
+	transition: 0.5s;
+	background: royalblue;
+}
+
+.box-turnos {
+	width: 50%;
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+	align-items: center;
+}
+
+.turnoAzul {
+	color: blue;
+	background: lightblue;
+}
+
+.turnoRojo {
+	color: red;
+	background: pink;
+}
+
+.d-none {
+	display: none;
+}
+
+.tutorial {
+	width: 35%;
+	margin: 0 auto;
+	text-align: center;
+	font-weight: bold;
+}
