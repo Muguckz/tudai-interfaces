@@ -9,6 +9,41 @@ class Tablero {
 		this.contadorVerticalAzules = contadorVerticalAzules;
 	}
 
+	// crearPrimerFila() {
+	// 	const cols = 8;
+	// 	const rows = 1;
+	// 	let matriz = [];	
+	// 	let imgCelda = this.getImgCelda();
+	// 	let x, y;
+	// 	// x es el medio del canvas, donde empezará a dibujarse la tabla.
+	// 	x = canvas.width / 2 - imgCelda.width*8/2;
+	// 	y = 0;
+	// 	for (let i = 0; i < cols; i++) {
+	// 		matriz[i] = [];
+	// 		for (let j = 0; j < rows; j++) {
+
+	// 			this.CeldasEjeY[j] = y;
+	// 			this.CeldasEjeX[i] = x;
+
+	// 			y += imgCelda.height;
+	// 		}
+	// 		y = 0;
+	// 		x += imgCelda.width;
+	// 	}
+	// 	this.dibujarCeldasPimerFila();
+	// }
+
+	// dibujarCeldasPimerFila() {
+	// 	for (let x = 0; x < this.getCeldasEjeX().length; x++) {
+	// 		for (let y = 0; y < 1; y++) {
+	// 			let imgCelda = this.getImgCelda();
+	// 			// imgCelda.onload = () => {
+	// 				this.ctx.drawImage(imgCelda, this.getCeldasEjeX()[x], this.getCeldasEjeY()[y], imgCelda.width, imgCelda.height);
+	// 			// }
+	// 		}
+	// 	}
+	// }
+
 	crearTablero() {
 		const cols = 8;
 		const rows = 7;
@@ -54,18 +89,17 @@ class Tablero {
 		}
 	}
 
-	insertarFicha(x, y, partida, tablero) {
-		// Si hace clic en cualquier columna de la primer fila.
-		if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
-			this.verificarCelda(x, partida, tablero);
-		}
-	}
+	// insertarFicha(x, y, partida, tablero, ficha) {
+	// 	// Si hace clic en cualquier columna de la primer fila.
+	// 	if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
+	// 		this.verificarCelda(x, partida, tablero, ficha);
+	// 	}
+	// }
 
-	verificarCelda(x, partida, tablero) {
+	insertarFicha(x, tablero, partida, ficha) {
 		let posColumna = this.getPosColumna(x);
 
 		let i = 7; // Cantidad de filas.
-		let ficha;
 
 		// Márgenes para ubicar bien las fichas.
 		let pixelX = 15;
@@ -77,7 +111,8 @@ class Tablero {
 			while (i > 0) {
 				if (this.Celdas[i-1][posColumna] == 0) {
 
-					ficha = partida.rotarTurno(partida, ficha);
+					// ficha = partida.rotarTurno(partida, ficha);
+					// partida.tiempo(partida, ficha);
 
 					ficha.onload = () => {
 						// Dibujo la ficha en esa posición y le sumo unos pixeles de margen para que queden bien posicionadas.
@@ -107,6 +142,8 @@ class Tablero {
 			for (let x = 0; x < this.getCeldasEjeX().length - 3; x++) {
 	   			if (this.Celdas[y][x] == colorFicha && this.Celdas[y+1][x+1] == colorFicha && this.Celdas[y+2][x+2] == colorFicha && this.Celdas[y+3][x+3] == colorFicha) {
 					partida.ganador(colorFicha, tablero);
+					partida.setFinalizado(true);
+					this.bloquearDatosMatriz();
 	   			} 
 			}
 		}
@@ -117,6 +154,8 @@ class Tablero {
 		    for (let x = 0; x < this.getCeldasEjeX().length - 3; x++) {
 		        if (this.Celdas[y][x] == colorFicha && this.Celdas[y-1][x+1] == colorFicha && this.Celdas[y-2][x+2] == colorFicha && this.Celdas[y-3][x+3] == colorFicha) {
 		        	partida.ganador(colorFicha, tablero);
+		        	partida.setFinalizado(true);
+		        	this.bloquearDatosMatriz();
 		    	}
 			}
 		}
@@ -127,6 +166,8 @@ class Tablero {
 			for (let x = 0; x < this.getCeldasEjeX().length - 3; x++) {
 				if (this.Celdas[y][x] == colorFicha && this.Celdas[y][x+1] == colorFicha && this.Celdas[y][x+2] == colorFicha && this.Celdas[y][x+3] == colorFicha) {
 					partida.ganador(colorFicha, tablero);
+					partida.setFinalizado(true);
+					this.bloquearDatosMatriz();
 				}
 			}
 		}
@@ -152,9 +193,13 @@ class Tablero {
 
 			if (this.contadorVerticalRojas == 4) {
 				partida.ganador(colorFicha, tablero);
+				partida.setFinalizado(true);
+				this.bloquearDatosMatriz();
 				break;
 			} else if (this.contadorVerticalAzules == 4) {
 				partida.ganador(colorFicha, tablero);
+				partida.setFinalizado(true);
+				this.bloquearDatosMatriz();
 				break;
 			}
 		}
@@ -217,6 +262,17 @@ class Tablero {
 		imgCelda.width = 76;
 		imgCelda.height = 68;
 		return imgCelda;
+	}
+
+	bloquearDatosMatriz() {
+		const cols = 8;
+		const rows = 7;
+
+		for (let i = 0; i < cols; i++) {
+			for (let j = 0; j < rows; j++) {
+				this.Celdas[j][i] = 1;
+			}
+		}
 	}
 
 	eliminarDatosMatriz() {
