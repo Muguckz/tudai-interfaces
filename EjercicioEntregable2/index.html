@@ -7,12 +7,33 @@
 	<script type="text/javascript" src="js/Tablero.js"></script>
 	<script type="text/javascript" src="js/Jugador.js"></script>
 	<script type="text/javascript" src="js/Ficha.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/estilos.css">
 	<meta charset="utf-8">
 </head>
 <body>
 
-	<canvas id="canvas" width="1300" height="600"></canvas>
-	<button id="reiniciar">Reiniciar</button>
+	<div class="tutorial">
+		<h1>4 en línea</h1>
+		<p>Cada jugador deberá formar una hilera de 4 fichas de su color de forma horizontal, vertical o diagonal
+		para ganar. Seleccionar una ficha y arrastrar hasta arriba de la primera fila, donde se indican con flechas para su
+		correcto funcionamiento.</p>
+		<button id="ocultarTutorial">Comenzar a jugar</button>
+	</div>
+
+	<div class="box">
+		<div class="box-turnos">
+			<p class="d-none" id="flechaIzquierda">🡺</p>
+			<p class="turnoJugador turnoRojo d-none" id="turnoJugador">Turno jugador: Rojo</p>
+			<!-- <div id="tiempo"></div> -->
+			Tiempo: <p id="tiempo">3</p>
+			<p class="d-none" id="flechaDerecha">🡸</p>	
+		</div>
+		<canvas id="canvas" width="1300" height="500"></canvas>
+		<div>
+			<button id="reiniciar" class="d-none">Reiniciar</button>	
+			<!-- <button id="mostrarTutorial" class="d-none">Mostrar tutorial</button> -->
+		</div>
+	</div>
 
 </body>
 </html>
