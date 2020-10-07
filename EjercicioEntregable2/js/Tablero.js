@@ -74,9 +74,9 @@ class Tablero {
 					// partida.tiempo(partida, ficha);
 
 					imgFicha.onload = () => {
-						// Dibujo la ficha en esa posición y le sumo unos pixeles de margen para que queden bien posicionadas.
+					// Dibujo la ficha en esa posición y le sumo unos pixeles de margen para que queden bien posicionadas.
 						this.ctx.drawImage(imgFicha, this.getCeldasEjeX()[posColumna] + pixelX, this.getCeldasEjeY()[i-1] + pixelY, imgFicha.width/4, imgFicha.height/4);
-					}
+					}	
 
 					// 0 Vacío, 1 Roja, 2 Azul
 					let colorFicha = this.verificarColorFicha(partida);
@@ -91,6 +91,24 @@ class Tablero {
 					break;
 				} else {
 					i--;
+				}
+			}
+		}
+	}
+
+	dibujarFichas() {
+		let pixelX = 15;
+		let pixelY = 12;
+		for (let x = 0; x < this.getCeldasEjeX().length; x++) {
+			for (let y = 0; y < this.getCeldasEjeY().length; y++) {
+				if (this.Celdas[y][x] == "Rojo") {
+					let imgFicha = new Image();
+					imgFicha.src = "images/Ficha-roja.png";
+					this.ctx.drawImage(imgFicha, this.getCeldasEjeX()[x] + pixelX, this.getCeldasEjeY()[y] + pixelY, imgFicha.width/4, imgFicha.height/4);
+				} else if (this.Celdas[y][x] == "Azul") {
+					let imgFicha = new Image();
+					imgFicha.src = "images/Ficha-azul.png";
+					this.ctx.drawImage(imgFicha, this.getCeldasEjeX()[x] + pixelX, this.getCeldasEjeY()[y] + pixelY, imgFicha.width/4, imgFicha.height/4);
 				}
 			}
 		}
@@ -138,13 +156,13 @@ class Tablero {
 			// Cada vez que itera, pregunta si es una ficha roja o azul, le suma al contador correcto y sino la resetea.
 			// Comienza desde el inicio de la fila hasta el final de la columna. (en cada iteración las va contando de nuevo)
 
-			if (this.Celdas[i][columna] == "Rojos") {
+			if (this.Celdas[i][columna] == "Rojo") {
 				this.contadorVerticalRojas += 1;
 			} else {
 				this.contadorVerticalRojas = 0;
 			}
 
-			if (this.Celdas[i][columna] == "Azules") {
+			if (this.Celdas[i][columna] == "Azul") {
 				this.contadorVerticalAzules += 1;
 			} else {
 				this.contadorVerticalAzules = 0;
@@ -166,9 +184,9 @@ class Tablero {
 
 	verificarColorFicha(partida) {
 		if (partida.getTurno() == false) {
-			return "Rojos";
+			return "Rojo";
 		} else {
-			return "Azules";
+			return "Azul";
 		}
 	}
 

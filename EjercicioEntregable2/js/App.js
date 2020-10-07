@@ -4,6 +4,7 @@ const cantFichas = 30;
 let isOnMove = false;
 let isMouseDown = false;
 let clickedFigure;
+let dragging = false;
 let fichasRojas = [];
 let fichasAzules = [];
 
@@ -35,40 +36,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let ficha = new Ficha(ctx, 0, 0, 0, 20);
 
-	// canvas.addEventListener("mousedown", (e) => {
-	// 	turno = partida.getTurno();
-	// 	let x = e.layerX;
-	// 	let y = e.layerY;
-	// 	let imgFicha;
-
-	// 	if (partida.getFinalizado() == false) {
-	// 		if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
-	// 			imgFicha = rotarTurno(turno, ficha, partida);
-	// 			// console.log(ficha);
-	// 			tablero.insertarFicha(x, tablero, partida, imgFicha);
-	// 		}
-	// 	}
-
-	// })
-
 	let turno;
 	let imgFicha = new Image();
 
 	canvas.addEventListener("mousedown", (e) => {
-		if (partida.getTurno() == true) {
-			clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasRojas);
-			imgFicha = crearFicha(partida.getTurno());
-		} else {
-			clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasAzules);
-			imgFicha = crearFicha(partida.getTurno());
-		}
+		console.log(dragging);
+		// if (dragging) {
+			if (partida.getTurno() == true) {
+				clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasRojas);
+				imgFicha = crearFicha(partida.getTurno());
+			} else {
+				clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasAzules);
+				imgFicha = crearFicha(partida.getTurno());
+			}
 
-		if (clickedFigure != null) {
-        	isMouseDown = true;
-        	moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero);
-        } else {
-            console.log("No");
-        }
+			if (dragging) {
+				if (partida.getFinalizado() == false) {
+					if (clickedFigure != null) {
+			        	isMouseDown = true;
+			        	moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero);
+			        } else {
+			            console.log("No");
+			        }
+			    }
+
+			}
+		// }
 
     	turno = partida.getTurno();
 	})
@@ -80,14 +73,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		let x = e.layerX;
 		let y = e.layerY;
 		let imgFicha;
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		dibujarFichasRojas(fichasRojas);
+		dibujarFichasAzules(fichasAzules);
+		tablero.dibujarCeldas();
+		tablero.dibujarFichas();
 
-		if (partida.getFinalizado() == false) {
-			if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
-				imgFicha = rotarTurno(turno, ficha, partida);
-				// console.log(ficha);
-				tablero.insertarFicha(x, tablero, partida, imgFicha);
+		if (dragging) {
+			if (partida.getFinalizado() == false) {
+				if (x > 357 && x < 408 || x > 432 && x < 484 || x > 510 && x < 560 || x > 585 && x < 636 || x > 661 && x < 712 || x > 737 && x < 788
+					|| x > 813 && x < 863 || x > 889 && x < 940) {
+					imgFicha = rotarTurno(turno, ficha, partida);
+					tablero.insertarFicha(x, tablero, partida, imgFicha);
+				}
 			}
+
 		}
+
+		dragging = false;
     })
 
 	let reiniciar = document.querySelector("#reiniciar");
@@ -118,6 +121,7 @@ function crearFicha(turno) {
 function moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero) {
     canvas.addEventListener("mousemove", (e) => {
     	if (isMouseDown) {
+    		dragging = true;
     		let x = e.layerX;
 			let y = e.layerY;
 			// console.log(clickedFigure);
@@ -126,6 +130,7 @@ function moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero) {
     		dibujarFichasRojas(fichasRojas);
     		dibujarFichasAzules(fichasAzules);
     		tablero.dibujarCeldas();
+    		tablero.dibujarFichas();
     	}
     })
 }
@@ -134,6 +139,7 @@ function findClickedFigure(x, y, fichas) {
 	for (let i = 0; i < fichas.length; i++) {
 		const elemento = fichas[i];
 		if (elemento.estaDentro(x, y)) {
+			dragging = true;
 			return elemento;
 		}
 	}
