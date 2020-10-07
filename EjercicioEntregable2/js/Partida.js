@@ -1,8 +1,10 @@
 class Partida {
 
-	constructor(valor, finalizado) {
+	constructor(valor, finalizado, puntosAzules, puntosRojos) {
 		this.turno = valor;
 		this.finalizado = finalizado;
+		this.puntosAzules = puntosAzules;
+		this.puntosRojos = puntosRojos;
 	}
 
 	getTurno() {
@@ -26,19 +28,21 @@ class Partida {
 		tablero.crearTablero();	
 	}
 
-	// colorTurnoRojo() {
-	// 	let turnoJugador = document.querySelector(".turnoJugador");
-	// 	turnoJugador.innerHTML = "Turno jugador: Rojo";
-	// 	turnoJugador.classList.remove("turnoAzul");
-	// 	turnoJugador.classList.add("turnoRojo");
-	// }
+	getPuntosRojos() {
+		return this.puntosRojos;
+	}
 
-	// colorTurnoAzul() {
-	// 	let turnoJugador = document.querySelector(".turnoJugador");
-	// 	turnoJugador.innerHTML = "Turno jugador: Azul";
-	// 	turnoJugador.classList.remove("turnoRojo");
-	// 	turnoJugador.classList.add("turnoAzul");
-	// }
+	getPuntosAzules() {
+		return this.puntosAzules;
+	}
+
+	setPuntosRojos(valor) {
+		this.puntosRojos += valor;
+	}
+
+	setPuntosAzules(valor) {
+		this.puntosAzules += valor;
+	}
 
 	colorTurno(turno) {
 		let turnoJugador = document.querySelector(".turnoJugador");
@@ -56,59 +60,31 @@ class Partida {
 
 	ganador(color, tablero) {
 		let turnoJugador = document.querySelector(".turnoJugador");
-		// let siguienteTurno;
+		let puntosRojos = document.querySelector("#puntosRojo");
+		let puntosAzules = document.querySelector("#puntosAzul");
 
 		if (color == "Azules") {
 			this.colorTurno(true);
-			// siguienteTurno = "Azules";
+			this.setPuntosAzules(1);
+			puntosAzules.innerHTML = "Puntos para azules: " + this.getPuntosAzules();
 		} else {
 			this.colorTurno(false);
-			// siguienteTurno = "Rojos";
+			this.setPuntosRojos(1);
+			puntosRojos.innerHTML = "Puntos para rojos: " + this.getPuntosRojos();
 		}
-		
-
-		console.log(this.getFinalizado());
-
-		// turnoJugador.classList.remove("turnoRojo");
-		// turnoJugador.classList.remove("turnoAzul");
 
 		turnoJugador.innerHTML = "Ganaron los " + color;
-		// turnoJugador.innerHTML = "Ganaron los " + color + " Siguiente turno: " + siguienteTurno;
-		// this.reiniciarPartida(tablero);
+
+		if (this.getPuntosRojos() == 3 || this.getPuntosAzules() == 3) {
+			this.reiniciarPuntos(puntosRojos, puntosAzules, color);
+		}
 	}
 
-	// rotarTurno(partida, ficha) {
-	// 	let turnoJugador = document.querySelector(".turnoJugador");
-	// 	let imgFicha = new Ficha(this.ctx);
-
-	// 	if (this.getTurno(true)) {
-	// 		ficha = imgFicha.crearFichaRoja();
-	// 		this.colorTurnoAzul();
-	// 		turnoJugador.innerHTML = "Turno jugador: Azul";
-	// 		this.setTurno(false);
-	// 	} else {
-	// 		ficha = imgFicha.crearFichaAzul();
-	// 		this.colorTurnoRojo();
-	// 		turnoJugador.innerHTML = "Turno jugador: Rojo";
-	// 		this.setTurno(true);
-	// 	}
-
-	// 	return ficha;
-	// }
-
-	// tiempo(partida, ficha) {
-	// 	let contador = 3;
-	// 	let cuentaRegresiva = document.querySelector("#tiempo");
-	// 	let ciclo = setInterval (function(){  
-	// 	contador -= 1;
-	// 	cuentaRegresiva.innerHTML = contador;
-	// 	if (contador === 0) {
-	// 		partida.rotarTurno(partida, ficha);
-	// 	    clearInterval(ciclo);
-	// 	  	contador = 3;
-	// 	  	cuentaRegresiva.innerHTML = contador;
-	// 	  }
-	// 	}, 1000);
-	// }
-
+	reiniciarPuntos(puntosRojos, puntosAzules, color) {
+		turnoJugador.innerHTML = color + " han ganado 3 partidas.";
+		this.setPuntosAzules(-this.getPuntosAzules());
+		this.setPuntosRojos(-this.getPuntosRojos());
+		puntosRojos.innerHTML = "Puntos para rojos: " + this.getPuntosRojos();
+		puntosAzules.innerHTML = "Puntos para azules: " + this.getPuntosAzules();
+	}
 }

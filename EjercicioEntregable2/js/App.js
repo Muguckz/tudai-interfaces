@@ -2,17 +2,15 @@
 
 const cantFichas = 30;
 let isOnMove = false;
-let lastClickedFigure = null;
 let isMouseDown = false;
 let clickedFigure;
+let fichasRojas = [];
+let fichasAzules = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
 	let canvas = document.querySelector("#canvas");
 	let ctx = canvas.getContext("2d");
-	// ctx.fillStyle = "white";
-	// ctx.fillRect(0, 0, canvas.width, canvas.height);
-	// let lastClickedPiece = null;
 
 	let Celdas =[[1,1,1,1,1,1,1,1],
                 [1,1,1,1,1,1,1,1],
@@ -26,125 +24,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let CeldasEjeY = [0,0,0,0,0,0,0]
 
-    let posAzules = [];
-    let posRojas = [];
+    let imgCelda = new Image();
+	imgCelda.src = "images/Celda.png"; 
+	imgCelda.width = 76;
+	imgCelda.height = 68;
 
-	let tablero = new Tablero(ctx, Celdas, CeldasEjeX, CeldasEjeY, 0, 0);
-	// tablero.crearTablero();
+	let tablero = new Tablero(ctx, Celdas, CeldasEjeX, CeldasEjeY, 0, 0, imgCelda);
 
-	let partida = new Partida(true, false);
+	let partida = new Partida(true, false, 0, 0);
 
 	let ficha = new Ficha(ctx, 0, 0, 0, 20);
 
-	let fichasRojas = [];
-	let fichasAzules = [];
-
-	// crearFichasAzules(ctx, fichas);
-	// crearFichasRojas(ctx, fichas);
-
-	canvas.addEventListener("mousedown", (e) => {
-		turno = partida.getTurno();
-		let x = e.layerX;
-		let y = e.layerY;
-
-		if (partida.getFinalizado() == false) {
-			if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
-				if (turno) {
-					ficha = crearFicha(turno);
-					partida.colorTurno(turno);
-					// turnoJugador.innerHTML = "Turno jugador: Azul";
-					partida.setTurno(false);
-				} else {
-					ficha = crearFicha(turno);
-					partida.colorTurno(turno);
-					// turnoJugador.innerHTML = "Turno jugador: Rojo";
-					partida.setTurno(true);
-				}
-				tablero.insertarFicha(x, tablero, partida, ficha);
-			}
-		}
-
-	})
-
 	// canvas.addEventListener("mousedown", (e) => {
-	// 	crearFicha(e, ficha, partida);
-	// 	isMouseDown = true;
-	// })
-
-	// canvas.addEventListener("mousedown", (e) => {
+	// 	turno = partida.getTurno();
 	// 	let x = e.layerX;
 	// 	let y = e.layerY;
+	// 	let imgFicha;
 
-	// 	findClickedFigure(x, y, fichas);
+	// 	if (partida.getFinalizado() == false) {
+	// 		if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
+	// 			imgFicha = rotarTurno(turno, ficha, partida);
+	// 			// console.log(ficha);
+	// 			tablero.insertarFicha(x, tablero, partida, imgFicha);
+	// 		}
+	// 	}
+
 	// })
 
 	let turno;
+	let imgFicha = new Image();
 
-	canvas.addEventListener("click", () => {
+	canvas.addEventListener("mousedown", (e) => {
 		if (partida.getTurno() == true) {
-			clickedFigure = findClickedFigure(event.layerX, event.layerY, fichasRojas);
-			console.log(clickedFigure);
+			clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasRojas);
+			imgFicha = crearFicha(partida.getTurno());
 		} else {
-			clickedFigure = findClickedFigure(event.layerX, event.layerY, fichasAzules);
-			console.log(clickedFigure);
+			clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasAzules);
+			imgFicha = crearFicha(partida.getTurno());
 		}
+
+		if (clickedFigure != null) {
+        	isMouseDown = true;
+        	moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero);
+        } else {
+            console.log("No");
+        }
 
     	turno = partida.getTurno();
 	})
 
-    canvas.addEventListener('mousedown', event => {
-    	// partida.setTurno(true);
-  		// clickedFigure = findClickedFigure(event.layerX, event.layerY, fichas);
-        if (clickedFigure != null) {
-        	isMouseDown = true;
-            if (partida.getTurno() == true && clickedFigure.colorFicha == "Rojo") {
-            	console.log("rojo");
-            	// turno = "Rojo";
-            	// moverFicha(event, ficha, clickedFigure);
-            	moverFicha(ficha, clickedFigure, turno, tablero);
-            } else if (partida.getTurno() == false && clickedFigure.colorFicha == "Azul") {
-            	console.log("azul");
-            	// turno = "Azul";
-            	// moverFicha(event, ficha, clickedFigure);
-            	moverFicha(ficha, clickedFigure, turno, tablero);
-            }
-        } else {
-            console.log("Nope");
-        }
-    });
-
-    canvas.addEventListener("mouseup", () => {
+    canvas.addEventListener("mouseup", (e) => {
     	isMouseDown = false;
     	clickedFigure = null;
+  		turno = partida.getTurno();
+		let x = e.layerX;
+		let y = e.layerY;
+		let imgFicha;
+
+		if (partida.getFinalizado() == false) {
+			if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
+				imgFicha = rotarTurno(turno, ficha, partida);
+				// console.log(ficha);
+				tablero.insertarFicha(x, tablero, partida, imgFicha);
+			}
+		}
     })
-
-   //  canvas.addEventListener("mousemove", (e) => {
-   //  	if (isMouseDown) {
-   //  		let x = e.layerX;
-			// let y = e.layerY;
-   //  		ficha.moverFicha(x, y, clickedFigure);
-   //  	}
-   //  })
- 
-
-	// canvas.addEventListener("mousemove", (e) => {
-	// 	moverFicha(e, ficha, partida, tablero);
-	// 	isOnMove = true;
-	// })
-
-	// canvas.addEventListener("mouseup", () => {
-	// 	isMouseDown = false;
-	// 	isOnMove = false;
-	// })
-
-	// canvas.addEventListener("click", (e) => {
-	// 	let fichaClickeada = findClickedFigure(e.layerX, e.layerY, fichas);
-	// 	if (fichaClickeada != null) {
-	// 		console.log("Ficha.");
-	// 	} else {
-	// 		console.log("Nada.");
-	// 	}
-	// })
 
 	let reiniciar = document.querySelector("#reiniciar");
 	reiniciar.addEventListener("click", () => {
@@ -153,15 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	let boxTutorial = document.querySelector(".tutorial");
-	// let mostrarTutorial = document.querySelector("#mostrarTutorial");
-
-	// mostrarTutorial.addEventListener("click", () => {
-	// 	mostrarBoxTutorial(boxTutorial, mostrarTutorial);
-	// });
 
 	let btnComenzar = document.querySelector("#ocultarTutorial");
 	btnComenzar.addEventListener("click", () => {
-		comenzarPartida(boxTutorial, tablero, fichasRojas, fichasAzules, ctx , partida, ficha);
+		comenzarPartida(boxTutorial, tablero, ctx , partida, ficha);
 	});
 })
 
@@ -176,13 +115,17 @@ function crearFicha(turno) {
 	return ficha;
 }
 
-function moverFicha(ficha, clickedFigure, turno, tablero) {
-	// console.log(clickedFigure.colorFicha);
+function moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero) {
     canvas.addEventListener("mousemove", (e) => {
     	if (isMouseDown) {
     		let x = e.layerX;
 			let y = e.layerY;
-    		ficha.moverFicha(x, y, clickedFigure, turno, tablero);
+			// console.log(clickedFigure);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+    		ficha.moverFicha(x, y, imgFicha, clickedFigure);
+    		dibujarFichasRojas(fichasRojas);
+    		dibujarFichasAzules(fichasAzules);
+    		tablero.dibujarCeldas();
     	}
     })
 }
@@ -196,79 +139,48 @@ function findClickedFigure(x, y, fichas) {
 	}
 }
 
-// function moverFicha(e, ficha, partida, tablero) {
-// 	ficha.moverFicha(e.layerX, e.layerY, partida, tablero);
-// }
-
-// function mostrarBoxTutorial(boxTutorial) {
-// 	boxTutorial.classList.remove("d-none");
-// 	mostrarTutorial.classList.add("d-none");
-// }
-
-function comenzarPartida(boxTutorial, tablero, fichasRojas, fichasAzules, ctx, partida, ficha, posAzules, posRojas) {
+function comenzarPartida(boxTutorial, tablero, ctx, partida, ficha) {
 	boxTutorial.classList.add("d-none");
 	// mostrarTutorial.classList.remove("d-none");
 	tablero.eliminarDatosMatriz();
 	tablero.crearTablero();
-	crearFichasAzules(ctx, fichasAzules, posAzules);
-	crearFichasRojas(ctx, fichasRojas, posRojas);
+	crearFichasAzules(ctx);
+	crearFichasRojas(ctx);
 
-	let boxTurnos = document.querySelector(".box-turnos");
+	let footerBox = document.querySelector(".footerBox");
 
-	let parrafos = boxTurnos.querySelectorAll("p");
+	let parrafos = footerBox.querySelectorAll("p");
 
 	for (let i = 0; i < parrafos.length; i++) {
 		parrafos[i].classList.remove("d-none");
 	}
 
-	let reiniciar = document.querySelector("#reiniciar");
+	let btnReiniciar = footerBox.querySelector("#reiniciar");
 
-	reiniciar.classList.remove("d-none");
+	btnReiniciar.classList.remove("d-none");
 
-	// empezarTimer();
+	canvas.classList.remove("d-none");
 
-	// timer(partida, ficha);
+	let turnoJugador = document.querySelector("#turnoJugador");
 
-	// partida.tiempo(partida, ficha);
+	turnoJugador.classList.remove("d-none");
+
 }
 
-// function tiempo(partida, ficha) {
-// 	let cronometro = document.getElementById("tiempo");
-// 	let final = Date.now() + 60000;
-// 	let elcrono = setInterval(tiempo,10); 
-// 	function tiempo() {
-// 	  let diferencia= final-Date.now();
-// 	  let sg = diferencia/1000
-// 	  if (diferencia<=0) {
-// 	    clearInterval(elcrono);
-// 	    cronometro.classList.add('rojo');
-// 	    sg=0.0;
-// 	  }
-// 	  cronometro.innerHTML=sg;
-// 	}
-// }
-
-// function empezarTimer() {
-
-// 	let tiempoTotal = 30;
-
-// 	document.querySelector("#tiempo").innerHTML = tiempoTotal;
-
-// 	if(tiempoTotal == 0) {
-// 		alert('Final');
-// 	} else{
-// 		tiempoTotal-=1;
-// 		setTimeout("empezarTimer()", 1000);
-// 	}
-
-// }
-
-// function crearFicha(e, ficha, partida) {
-// 	let x = e.layerX;
-// 	let y = e.layerY;
-
-// 	crearFicha(x, y, partida);
-// }
+function rotarTurno(turno, ficha, partida) {
+	if (turno) {
+		ficha = crearFicha(turno);
+		partida.colorTurno(turno);
+		// turnoJugador.innerHTML = "Turno jugador: Azul";
+		partida.setTurno(false);
+	} else {
+		ficha = crearFicha(turno);
+		partida.colorTurno(turno);
+		// turnoJugador.innerHTML = "Turno jugador: Rojo";
+		partida.setTurno(true);
+	}
+	return ficha;
+}
 
 function reiniciarPartida(tablero) {
 	let partida = new Partida();
@@ -276,68 +188,42 @@ function reiniciarPartida(tablero) {
 	partida.reiniciarPartida(tablero);
 }
 
-// function findClickedFigure(x, y, fichas) {
-// 	for (let i = 0; i < fichas.length; i++) {
-// 		const elemento = fichas[i];
-// 		if (elemento.estaDentro(x, y)) {
-// 			return elemento;
-// 		}
-// 	}
-// }
-
-function crearFichasAzules(ctx, fichasAzules) {
+function crearFichasAzules(ctx) {
 
 	for (let i = 0; i < cantFichas; i++) {
 		let fichaImg = new Image();
 		fichaImg.src = "images/Ficha-azul.png";
-		let x = Math.random() * 200;
-		let y = Math.random() * 200;
-		let ficha = new Ficha(ctx, x, y, "Azul", 20);
-		fichaImg.onload = () => {
-			ctx.drawImage(fichaImg, x, y, fichaImg.width/4, fichaImg.height/4);
-		}
+		let x = Math.random() * 200 + 20;
+		let y = Math.random() * 200 + 70;
+		let ficha = new Ficha(ctx, x, y, "Azul", 20, fichaImg);
 		fichasAzules.push(ficha);
-		// ficha.crearFichas(fichaImg);
-		// posAzules.push(x, y);
-		// ficha.dibujarFicha();
+		dibujarFichasAzules(fichasAzules);
 	}
 }
 
-function crearFichasRojas(ctx, fichasRojas) {
+function dibujarFichasRojas(fichasRojas) {
+	for (let i = 0; i < fichasRojas.length; i++) {
+		// console.log(fichasAzules[i]);
+		fichasRojas[i].dibujar();
+	}
+}
+
+function dibujarFichasAzules(fichasAzules) {
+	for (let i = 0; i < fichasAzules.length; i++) {
+		// console.log(fichasAzules[i]);
+		fichasAzules[i].dibujar();
+	}
+}
+
+function crearFichasRojas(ctx) {
 
 	for (let i = 0; i < cantFichas; i++) {
 		let fichaImg = new Image();
 		fichaImg.src = "images/Ficha-roja.png";
 		let x =  Math.random() * 200 + canvas.width - 250;
-		let y =  Math.random() * 200;
-		let ficha = new Ficha(ctx, x, y, "Rojo", 20);
-		fichaImg.onload = () => {
-			ctx.drawImage(fichaImg, x, y, fichaImg.width/4, fichaImg.height/4);
-		}
+		let y =  Math.random() * 200 + 70;
+		let ficha = new Ficha(ctx, x, y, "Rojo", 20, fichaImg);
 		fichasRojas.push(ficha);
-		// ficha.crearFichas(fichaImg);
-		// posRojas.push(x, y);
-		// ficha.dibujarFicha();
+		dibujarFichasRojas(fichasRojas);
 	}
 }
-
-// function insertarFicha(x, y, tablero, partida, ficha) {
-// 	let x = e.layerX;
-// 	let y = e.layerY;
-
-// 	tablero.insertarFicha(x, partida, tablero, ficha);
-// }
-
-// function colorTurnoRojo() {
-// 	let turnoJugador = document.querySelector(".turnoJugador");
-// 	turnoJugador.innerHTML = "Turno jugador: Rojo";
-// 	turnoJugador.classList.remove("turnoAzul");
-// 	turnoJugador.classList.add("turnoRojo");
-// }
-
-// function colorTurnoAzul() {
-// 	let turnoJugador = document.querySelector(".turnoJugador");
-// 	turnoJugador.innerHTML = "Turno jugador: Azul";
-// 	turnoJugador.classList.remove("turnoRojo");
-// 	turnoJugador.classList.add("turnoAzul");
-// }

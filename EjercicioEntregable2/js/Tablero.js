@@ -1,58 +1,24 @@
 class Tablero {
 
-	constructor(ctx, Celdas, CeldasEjeX, CeldasEjeY, contadorVerticalRojas, contadorVerticalAzules) {
+	constructor(ctx, Celdas, CeldasEjeX, CeldasEjeY, contadorVerticalRojas, contadorVerticalAzules, imgCelda) {
 		this.ctx = ctx;
 		this.Celdas = Celdas;
 		this.CeldasEjeX = CeldasEjeX;
 		this.CeldasEjeY = CeldasEjeY;
 		this.contadorVerticalRojas = contadorVerticalRojas;
 		this.contadorVerticalAzules = contadorVerticalAzules;
+		this.imgCelda = imgCelda;
 	}
-
-	// crearPrimerFila() {
-	// 	const cols = 8;
-	// 	const rows = 1;
-	// 	let matriz = [];	
-	// 	let imgCelda = this.getImgCelda();
-	// 	let x, y;
-	// 	// x es el medio del canvas, donde empezará a dibujarse la tabla.
-	// 	x = canvas.width / 2 - imgCelda.width*8/2;
-	// 	y = 0;
-	// 	for (let i = 0; i < cols; i++) {
-	// 		matriz[i] = [];
-	// 		for (let j = 0; j < rows; j++) {
-
-	// 			this.CeldasEjeY[j] = y;
-	// 			this.CeldasEjeX[i] = x;
-
-	// 			y += imgCelda.height;
-	// 		}
-	// 		y = 0;
-	// 		x += imgCelda.width;
-	// 	}
-	// 	this.dibujarCeldasPimerFila();
-	// }
-
-	// dibujarCeldasPimerFila() {
-	// 	for (let x = 0; x < this.getCeldasEjeX().length; x++) {
-	// 		for (let y = 0; y < 1; y++) {
-	// 			let imgCelda = this.getImgCelda();
-	// 			// imgCelda.onload = () => {
-	// 				this.ctx.drawImage(imgCelda, this.getCeldasEjeX()[x], this.getCeldasEjeY()[y], imgCelda.width, imgCelda.height);
-	// 			// }
-	// 		}
-	// 	}
-	// }
 
 	crearTablero() {
 		const cols = 8;
 		const rows = 7;
 		let matriz = [];
-		let imgCelda = this.getImgCelda();
+		// let imgCelda = this.getImgCelda();
 		let x, y;
 		// x es el medio del canvas, donde empezará a dibujarse la tabla.
-		x = canvas.width / 2 - imgCelda.width*8/2;
-		y = 0;
+		x = canvas.width / 2 - this.imgCelda.width*8/2;
+		y = 50;
 
 		for (let i = 0; i < cols; i++) {
 			matriz[i] = [];
@@ -61,10 +27,10 @@ class Tablero {
 				this.CeldasEjeY[j] = y;
 				this.CeldasEjeX[i] = x;
 
-				y += imgCelda.height;
+				y += this.imgCelda.height;
 			}
-			y = 0;
-			x += imgCelda.width;
+			y = 50;
+			x += this.imgCelda.width;
 		}
 
 		this.dibujarCeldas();
@@ -81,22 +47,15 @@ class Tablero {
 	dibujarCeldas() {
 		for (let x = 0; x < this.getCeldasEjeX().length; x++) {
 			for (let y = 0; y < this.getCeldasEjeY().length; y++) {
-				let imgCelda = this.getImgCelda();
-				imgCelda.onload = () => {
-					this.ctx.drawImage(imgCelda, this.getCeldasEjeX()[x], this.getCeldasEjeY()[y], imgCelda.width, imgCelda.height);
-				}
+				// let imgCelda = this.getImgCelda();
+				// this.imgCelda.onload = () => {
+				this.ctx.drawImage(this.imgCelda, this.getCeldasEjeX()[x], this.getCeldasEjeY()[y], this.imgCelda.width, this.imgCelda.height);
+				// }
 			}
 		}
 	}
 
-	// insertarFicha(x, y, partida, tablero, ficha) {
-	// 	// Si hace clic en cualquier columna de la primer fila.
-	// 	if (x >= 357 && x <= 940 && y >= 0 && y <= 57) {
-	// 		this.verificarCelda(x, partida, tablero, ficha);
-	// 	}
-	// }
-
-	insertarFicha(x, tablero, partida, ficha) {
+	insertarFicha(x, tablero, partida, imgFicha) {
 		let posColumna = this.getPosColumna(x);
 
 		let i = 7; // Cantidad de filas.
@@ -114,9 +73,9 @@ class Tablero {
 					// ficha = partida.rotarTurno(partida, ficha);
 					// partida.tiempo(partida, ficha);
 
-					ficha.onload = () => {
+					imgFicha.onload = () => {
 						// Dibujo la ficha en esa posición y le sumo unos pixeles de margen para que queden bien posicionadas.
-						this.ctx.drawImage(ficha, this.getCeldasEjeX()[posColumna] + pixelX, this.getCeldasEjeY()[i-1] + pixelY, ficha.width/4, ficha.height/4);
+						this.ctx.drawImage(imgFicha, this.getCeldasEjeX()[posColumna] + pixelX, this.getCeldasEjeY()[i-1] + pixelY, imgFicha.width/4, imgFicha.height/4);
 					}
 
 					// 0 Vacío, 1 Roja, 2 Azul
@@ -254,14 +213,6 @@ class Tablero {
 		else {
 			return null;
 		}
-	}
-
-	getImgCelda() {
-		let imgCelda = new Image();
-		imgCelda.src = "images/Celda.png"; 
-		imgCelda.width = 76;
-		imgCelda.height = 68;
-		return imgCelda;
 	}
 
 	bloquearDatosMatriz() {
