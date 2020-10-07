@@ -5,8 +5,12 @@
 	align-items: center;
 }
 
+p {
+	margin: 0;
+}
+
 button {
-	padding: 20px;
+	padding: 10px;
 	transition: 0.5s;
 	background: dodgerblue;
 	border: 1px solid gray;
@@ -30,11 +34,13 @@ button:hover {
 .turnoAzul {
 	color: blue;
 	background: lightblue;
+	font-weight: bold;
 }
 
 .turnoRojo {
 	color: red;
 	background: pink;
+	font-weight: bold;
 }
 
 .d-none {
@@ -46,4 +52,11 @@ button:hover {
 	margin: 0 auto;
 	text-align: center;
 	font-weight: bold;
+}
+
+.footerBox {
+	display: flex;
+	justify-content: space-around;
+	width: 50%;
+	align-items: center;
 }
