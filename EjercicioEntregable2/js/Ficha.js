@@ -17,9 +17,7 @@ class Ficha {
 	}
 
 	dibujar() {
-		// this.fichaImg.onload = () => {
-			this.ctx.drawImage(this.fichaImg, this.x - this.radio, this.y - this.radio, this.fichaImg.width/4, this.fichaImg.height/4);
-		// }
+		this.ctx.drawImage(this.fichaImg, this.x - this.radio, this.y - this.radio, this.fichaImg.width/4, this.fichaImg.height/4);
 	}
 
 	moverFicha(x, y, imgFicha, clickedFigure) {

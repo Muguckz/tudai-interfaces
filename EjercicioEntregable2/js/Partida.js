@@ -25,7 +25,9 @@ class Partida {
 
 	reiniciarPartida(tablero) {
 		tablero.eliminarDatosMatriz();
-		tablero.crearTablero();	
+		tablero.crearTablero();
+		// this.setFinalizado(false);
+
 	}
 
 	getPuntosRojos() {
@@ -63,7 +65,7 @@ class Partida {
 		let puntosRojos = document.querySelector("#puntosRojo");
 		let puntosAzules = document.querySelector("#puntosAzul");
 
-		if (color == "Azules") {
+		if (color == "Azul") {
 			this.colorTurno(true);
 			this.setPuntosAzules(1);
 			puntosAzules.innerHTML = "Puntos para azules: " + this.getPuntosAzules();
@@ -81,7 +83,7 @@ class Partida {
 	}
 
 	reiniciarPuntos(puntosRojos, puntosAzules, color) {
-		turnoJugador.innerHTML = color + " han ganado 3 partidas.";
+		turnoJugador.innerHTML = color + " ha ganado 3 partidas.";
 		this.setPuntosAzules(-this.getPuntosAzules());
 		this.setPuntosRojos(-this.getPuntosRojos());
 		puntosRojos.innerHTML = "Puntos para rojos: " + this.getPuntosRojos();

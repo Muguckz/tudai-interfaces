@@ -7,6 +7,7 @@ let clickedFigure;
 let dragging = false;
 let fichasRojas = [];
 let fichasAzules = [];
+// let imgCanvas;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -40,28 +41,25 @@ document.addEventListener("DOMContentLoaded", () => {
 	let imgFicha = new Image();
 
 	canvas.addEventListener("mousedown", (e) => {
-		console.log(dragging);
-		// if (dragging) {
-			if (partida.getTurno() == true) {
-				clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasRojas);
-				imgFicha = crearFicha(partida.getTurno());
-			} else {
-				clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasAzules);
-				imgFicha = crearFicha(partida.getTurno());
-			}
+		if (partida.getTurno() == true) {
+			clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasRojas);
+			imgFicha = crearFicha(partida.getTurno());
+		} else {
+			clickedFigure = findClickedFigure(e.layerX, e.layerY, fichasAzules);
+			imgFicha = crearFicha(partida.getTurno());
+		}
 
-			if (dragging) {
-				if (partida.getFinalizado() == false) {
-					if (clickedFigure != null) {
-			        	isMouseDown = true;
-			        	moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero);
-			        } else {
-			            console.log("No");
-			        }
-			    }
+		if (dragging) {
+			if (partida.getFinalizado() == false) {
+				if (clickedFigure != null) {
+		        	isMouseDown = true;
+		        	moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero);
+		        } else {
+		            console.log("No");
+		        }
+		    }
 
-			}
-		// }
+		}
 
     	turno = partida.getTurno();
 	})
@@ -73,21 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		let x = e.layerX;
 		let y = e.layerY;
 		let imgFicha;
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		dibujarFichasRojas(fichasRojas);
-		dibujarFichasAzules(fichasAzules);
-		tablero.dibujarCeldas();
-		tablero.dibujarFichas();
 
-		if (dragging) {
-			if (partida.getFinalizado() == false) {
-				if (x > 357 && x < 408 || x > 432 && x < 484 || x > 510 && x < 560 || x > 585 && x < 636 || x > 661 && x < 712 || x > 737 && x < 788
-					|| x > 813 && x < 863 || x > 889 && x < 940) {
-					imgFicha = rotarTurno(turno, ficha, partida);
-					tablero.insertarFicha(x, tablero, partida, imgFicha);
+		if (partida.getFinalizado() == false) {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			dibujarFichasRojas(fichasRojas);
+			dibujarFichasAzules(fichasAzules);
+			tablero.dibujarCeldas();
+			// ctx.putImageData(imgCanvas, 340, 50);
+			tablero.dibujarFichas();
+			if (dragging) {
+				if (y > 0 && y < 50) {
+					if (x > 357 && x < 408 || x > 432 && x < 484 || x > 510 && x < 560 || x > 585 && x < 636 || x > 661 && x < 712 || x > 737 && x < 788
+						|| x > 813 && x < 863 || x > 889 && x < 940) {
+						imgFicha = rotarTurno(turno, ficha, partida);
+						tablero.insertarFicha(x, tablero, partida, imgFicha);
+						// imgCanvas = ctx.getImageData(340, 50, 620, 473);
+					}
 				}
 			}
-
 		}
 
 		dragging = false;
@@ -95,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let reiniciar = document.querySelector("#reiniciar");
 	reiniciar.addEventListener("click", () => {
-		reiniciarPartida(tablero);
+		reiniciarPartida(tablero, partida);
 		partida.setFinalizado(false);
 	});
 
@@ -105,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	btnComenzar.addEventListener("click", () => {
 		comenzarPartida(boxTutorial, tablero, ctx , partida, ficha);
 	});
+
 })
 
 function crearFicha(turno) {
@@ -130,6 +132,7 @@ function moverFicha(ficha, imgFicha, clickedFigure, ctx, tablero) {
     		dibujarFichasRojas(fichasRojas);
     		dibujarFichasAzules(fichasAzules);
     		tablero.dibujarCeldas();
+    		// ctx.putImageData(imgCanvas, 340, 50);
     		tablero.dibujarFichas();
     	}
     })
@@ -171,6 +174,8 @@ function comenzarPartida(boxTutorial, tablero, ctx, partida, ficha) {
 
 	turnoJugador.classList.remove("d-none");
 
+	// imgCanvas = ctx.getImageData(340, 50, 620, 473);
+
 }
 
 function rotarTurno(turno, ficha, partida) {
@@ -196,8 +201,8 @@ function reiniciarPartida(tablero) {
 
 function crearFichasAzules(ctx) {
 
+	let fichaImg = new Image();
 	for (let i = 0; i < cantFichas; i++) {
-		let fichaImg = new Image();
 		fichaImg.src = "images/Ficha-azul.png";
 		let x = Math.random() * 200 + 20;
 		let y = Math.random() * 200 + 70;
@@ -223,8 +228,8 @@ function dibujarFichasAzules(fichasAzules) {
 
 function crearFichasRojas(ctx) {
 
+	let fichaImg = new Image();
 	for (let i = 0; i < cantFichas; i++) {
-		let fichaImg = new Image();
 		fichaImg.src = "images/Ficha-roja.png";
 		let x =  Math.random() * 200 + canvas.width - 250;
 		let y =  Math.random() * 200 + 70;

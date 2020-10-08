@@ -99,14 +99,13 @@ class Tablero {
 	dibujarFichas() {
 		let pixelX = 15;
 		let pixelY = 12;
+		let imgFicha = new Image();
 		for (let x = 0; x < this.getCeldasEjeX().length; x++) {
 			for (let y = 0; y < this.getCeldasEjeY().length; y++) {
 				if (this.Celdas[y][x] == "Rojo") {
-					let imgFicha = new Image();
 					imgFicha.src = "images/Ficha-roja.png";
 					this.ctx.drawImage(imgFicha, this.getCeldasEjeX()[x] + pixelX, this.getCeldasEjeY()[y] + pixelY, imgFicha.width/4, imgFicha.height/4);
 				} else if (this.Celdas[y][x] == "Azul") {
-					let imgFicha = new Image();
 					imgFicha.src = "images/Ficha-azul.png";
 					this.ctx.drawImage(imgFicha, this.getCeldasEjeX()[x] + pixelX, this.getCeldasEjeY()[y] + pixelY, imgFicha.width/4, imgFicha.height/4);
 				}
