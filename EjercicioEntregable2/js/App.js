@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 			}
 		}
-
 		dragging = false;
     })
 
@@ -106,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	btnComenzar.addEventListener("click", () => {
 		comenzarPartida(boxTutorial, tablero, ctx , partida, ficha);
 	});
-
 })
 
 function crearFicha(turno) {
@@ -204,25 +202,28 @@ function crearFichasAzules(ctx) {
 	let fichaImg = new Image();
 	for (let i = 0; i < cantFichas; i++) {
 		fichaImg.src = "images/Ficha-azul.png";
-		let x = Math.random() * 200 + 20;
-		let y = Math.random() * 200 + 70;
+		// let x = Math.random() * 200 + 20;
+		// let y = Math.random() * 200 + 70;
+		let x = 220;
+		let y = 270;
 		let ficha = new Ficha(ctx, x, y, "Azul", 20, fichaImg);
 		fichasAzules.push(ficha);
-		dibujarFichasAzules(fichasAzules);
+		// dibujarFichasAzules(fichasAzules);
+		ficha.dibujar();
 	}
 }
 
 function dibujarFichasRojas(fichasRojas) {
 	for (let i = 0; i < fichasRojas.length; i++) {
 		// console.log(fichasAzules[i]);
-		fichasRojas[i].dibujar();
+		fichasRojas[i].reDibujar();
 	}
 }
 
 function dibujarFichasAzules(fichasAzules) {
 	for (let i = 0; i < fichasAzules.length; i++) {
 		// console.log(fichasAzules[i]);
-		fichasAzules[i].dibujar();
+		fichasAzules[i].reDibujar();
 	}
 }
 
@@ -231,10 +232,13 @@ function crearFichasRojas(ctx) {
 	let fichaImg = new Image();
 	for (let i = 0; i < cantFichas; i++) {
 		fichaImg.src = "images/Ficha-roja.png";
-		let x =  Math.random() * 200 + canvas.width - 250;
-		let y =  Math.random() * 200 + 70;
+		// let x =  Math.random() * 200 + canvas.width - 250;
+		// let y =  Math.random() * 200 + 70;
+		let x = canvas.width - 220;
+		let y = 270;
 		let ficha = new Ficha(ctx, x, y, "Rojo", 20, fichaImg);
 		fichasRojas.push(ficha);
-		dibujarFichasRojas(fichasRojas);
+		ficha.dibujar();
+		// dibujarFichasRojas(fichasRojas);
 	}
 }
