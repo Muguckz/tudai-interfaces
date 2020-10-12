@@ -1,0 +1,199 @@
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.d-none {
+	display: none;
+}
+
+/* Navbar */
+
+nav {
+	position: sticky;
+	background: #333;
+	top: 0;
+	left: 0;
+	padding: 20px;
+	display: flex;
+	z-index: 10;
+}
+
+nav p {
+	color: white;
+	cursor: pointer;
+}
+
+nav ul {
+	display: flex;
+	justify-content: space-around;
+	width: 50%;
+}
+
+nav ul li a {
+	padding: 10px;
+	color: #fff;
+	text-decoration: none;
+	transition: 1s;
+	background: inherit;
+}
+
+nav ul li a:hover {
+	background: #7777;
+	transition: 1s;
+}
+
+.dropdown ul {
+	display: flex;
+	justify-content: center;
+	animation: dropdown 0.3s;
+	transform-origin: top center;
+	background-color: #424242;
+}
+
+.dropdown ul li {
+	margin: 10px;
+}
+
+.dropdown ul li a {
+	color: white;
+	text-decoration: none;
+}
+
+@keyframes dropdown {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* Contenedor */
+
+.content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+}
+
+/* Cuenta regresiva */
+
+.timer {
+	margin: 25px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 25px;
+	animation-name: timer;
+	animation-duration: 2s;
+	font-weight: bold;
+	color: #2b2b2b;
+}
+
+@keyframes timer {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+/* Parallax */
+
+.parallax {
+	margin-top: 25px;
+	max-width: 75%;
+	animation-name: parallax;
+	animation-duration: 1s;
+}
+
+.parallax img {
+	width: 100%;
+}
+
+.parallax img:hover {
+
+}
+
+@keyframes parallax {
+	0% { opacity: 0; }
+	25% { opacity: 0.25; }
+	50% { opacity: 0.5; }
+	75% { opacity: 0.75; }
+	100% { opacity: 1; }
+}
+
+/* Cards */
+
+.cards {
+	display: flex;
+	justify-content: center;
+	border-top: 1px solid #7777;
+	border-bottom: 1px solid #7777;
+}
+
+.card {
+	max-width: 40%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	/*border: 1px solid #7777;*/
+	transition: 1s;
+	border-left: 1px solid #7777;
+	border-right: 1px solid #7777;
+}
+
+.card img {
+	width: 75%;
+}
+
+.card img:hover {
+	transition: 1s;
+	transform: scale(1.1);
+	box-shadow: 10px 10px 10px #333;
+}
+
+.card p {
+	margin-bottom: 20px;
+	font-weight: bold
+}
+
+/* Slider */
+
+.slider-container {
+	padding-top: 20px;
+	max-width: 50%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.slider-container button {
+	padding: 20px;
+	border: none;
+	background-color: dodgerblue;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+}
+
+.slide img {
+    width:  800px;
+    height: 500px;
+    object-fit: cover;
+} 
+
+.anim-slide {
+ 	animation-name: anim-slide;
+ 	animation-duration: 1s;
+}
+
+@keyframes anim-slide {
+  	from {opacity: .5}
+  	to {opacity: 1}
+}
+
