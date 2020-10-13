@@ -18,7 +18,7 @@ class Tablero {
 		let x, y;
 		// x es el medio del canvas, donde empezará a dibujarse la tabla.
 		x = canvas.width / 2 - this.imgCelda.width*8/2;
-		y = 50;
+		y = 70;
 
 		for (let i = 0; i < cols; i++) {
 			matriz[i] = [];
@@ -29,7 +29,7 @@ class Tablero {
 
 				y += this.imgCelda.height;
 			}
-			y = 50;
+			y = 70;
 			x += this.imgCelda.width;
 		}
 

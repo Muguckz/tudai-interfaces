@@ -12,6 +12,11 @@
 </head>
 <body>
 
+	<div class="d-none alert-ganador">
+		<p id="ganador"></p>
+		<button id="reiniciar">Reiniciar partida</button>
+	</div>
+
 	<div class="tutorial">
 		<h1>4 en línea</h1>
 		<p>Cada jugador deberá formar una hilera de 4 fichas de su color de forma horizontal, vertical o diagonal
@@ -19,15 +24,13 @@
 		<button id="ocultarTutorial">Comenzar a jugar</button>
 	</div>
 
-	<div class="box">
+	<div class="box d-none">
 		<div class="footerBox">
-			<p class="turnoAzul d-none" id="puntosAzul">Puntos para azules:</p>
-			<button id="reiniciar" class="d-none">Reiniciar partida</button>
-			<p class="turnoRojo d-none" id="puntosRojo">Puntos para rojos:</p>
-			<!-- <button id="mostrarTutorial" class="d-none">Mostrar tutorial</button> -->
+			<p class="turnoAzul" id="puntosAzul">Puntos para azules:</p>
+			<p class="turnoRojo" id="puntosRojo">Puntos para rojos:</p>
 		</div>
-		<canvas class="d-none" id="canvas" width="1300" height="550"></canvas>
-		<p class="turnoJugador turnoRojo d-none" id="turnoJugador">Turno jugador: Rojo</p>
+		<canvas id="canvas" width="1300" height="550"></canvas>
+		<p class="turnoJugador turnoRojo" id="turnoJugador">Turno jugador: Rojo</p>
 	</div>
 
 </body>

@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			// ctx.putImageData(imgCanvas, 340, 50);
 			tablero.dibujarFichas();
 			if (dragging) {
-				if (y > 0 && y < 50) {
+				if (y > 0 && y < 70) {
 					if (x > 357 && x < 408 || x > 432 && x < 484 || x > 510 && x < 560 || x > 585 && x < 636 || x > 661 && x < 712 || x > 737 && x < 788
 						|| x > 813 && x < 863 || x > 889 && x < 940) {
 						imgFicha = rotarTurno(turno, ficha, partida);
@@ -154,25 +154,8 @@ function comenzarPartida(boxTutorial, tablero, ctx, partida, ficha) {
 	crearFichasAzules(ctx);
 	crearFichasRojas(ctx);
 
-	let footerBox = document.querySelector(".footerBox");
-
-	let parrafos = footerBox.querySelectorAll("p");
-
-	for (let i = 0; i < parrafos.length; i++) {
-		parrafos[i].classList.remove("d-none");
-	}
-
-	let btnReiniciar = footerBox.querySelector("#reiniciar");
-
-	btnReiniciar.classList.remove("d-none");
-
-	canvas.classList.remove("d-none");
-
-	let turnoJugador = document.querySelector("#turnoJugador");
-
-	turnoJugador.classList.remove("d-none");
-
-	// imgCanvas = ctx.getImageData(340, 50, 620, 473);
+	let box = document.querySelector(".box");
+	box.classList.remove("d-none");
 
 }
 
@@ -180,12 +163,10 @@ function rotarTurno(turno, ficha, partida) {
 	if (turno) {
 		ficha = crearFicha(turno);
 		partida.colorTurno(turno);
-		// turnoJugador.innerHTML = "Turno jugador: Azul";
 		partida.setTurno(false);
 	} else {
 		ficha = crearFicha(turno);
 		partida.colorTurno(turno);
-		// turnoJugador.innerHTML = "Turno jugador: Rojo";
 		partida.setTurno(true);
 	}
 	return ficha;

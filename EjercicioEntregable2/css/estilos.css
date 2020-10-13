@@ -44,7 +44,7 @@ button:hover {
 }
 
 .d-none {
-	display: none;
+	display: none!important;
 }
 
 .tutorial {
@@ -59,4 +59,35 @@ button:hover {
 	justify-content: space-around;
 	width: 50%;
 	align-items: center;
+}
+
+.alert-ganador {
+	background-color: lightgreen;
+	width: 30%;
+	/*margin: 0 auto;*/
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+	/*border: 1px solid green;*/
+	z-index: 15;
+	padding: 20px;
+	/*animation-name: ganador;*/
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	position: absolute;
+	top: 250px;
+	left: 450px;
+}
+
+@keyframes ganadorRojo {
+	0% { background-color: white }
+	50% { background-color: #FB162D }
+	100% { background-color: white }
+}
+
+@keyframes ganadorAzul {
+	0% { background-color: white }
+	50% { background-color: #3C11FB }
+	100% { background-color: white }
 }
