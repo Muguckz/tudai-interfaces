@@ -8,6 +8,10 @@
 	display: none;
 }
 
+h1 {
+	text-align: center;
+}
+
 /* Navbar */
 
 nav {
@@ -86,16 +90,21 @@ nav ul li a:hover {
 
 .timer {
 	margin: 25px;
-	border: 1px solid black;
+	border: 1px solid #7777;
 	border-radius: 5px;
 	padding: 25px;
-	animation-name: timer;
+	animation-name: opacity;
 	animation-duration: 2s;
 	font-weight: bold;
+	font-family: sans-serif;
 	color: #2b2b2b;
 }
 
-@keyframes timer {
+.timer h2 {
+	text-align: center;
+}
+
+@keyframes opacity {
 	from { opacity: 0; }
 	to { opacity: 1; }
 }
@@ -105,7 +114,7 @@ nav ul li a:hover {
 .parallax {
 	margin-top: 25px;
 	max-width: 75%;
-	animation-name: parallax;
+	animation-name: opacity;
 	animation-duration: 1s;
 }
 
@@ -117,40 +126,35 @@ nav ul li a:hover {
 
 }
 
-@keyframes parallax {
-	0% { opacity: 0; }
-	25% { opacity: 0.25; }
-	50% { opacity: 0.5; }
-	75% { opacity: 0.75; }
-	100% { opacity: 1; }
-}
-
 /* Cards */
 
 .cards {
 	display: flex;
-	justify-content: center;
-	border-top: 1px solid #7777;
-	border-bottom: 1px solid #7777;
+	justify-content: space-around;
+	/*border-top: 1px solid #7777;*/
+	/*border-bottom: 1px solid #7777;*/
+	margin: 30px;
 }
 
 .card {
-	max-width: 40%;
+	max-width: 20%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	/*border: 1px solid #7777;*/
 	transition: 1s;
-	border-left: 1px solid #7777;
-	border-right: 1px solid #7777;
+	/*border-left: 1px solid #7777;*/
+	/*border-right: 1px solid #7777;*/
+	border: 1px solid #7777;
+	background: white;
 }
 
 .card img {
-	width: 75%;
+	width: 100%;
 }
 
-.card img:hover {
+.card:hover {
 	transition: 1s;
 	transform: scale(1.1);
 	box-shadow: 10px 10px 10px #333;
@@ -164,7 +168,7 @@ nav ul li a:hover {
 /* Slider */
 
 .slider-container {
-	padding-top: 20px;
+	/*padding-top: 20px;*/
 	max-width: 50%;
 	margin: 0 auto;
 	display: flex;
@@ -182,18 +186,121 @@ nav ul li a:hover {
 }
 
 .slide img {
-    width:  800px;
-    height: 500px;
+    width:  700px;
+    height: 400px;
     object-fit: cover;
+    border: 1px solid #777;
 } 
 
 .anim-slide {
- 	animation-name: anim-slide;
+ 	animation-name: opacity;
  	animation-duration: 1s;
 }
 
-@keyframes anim-slide {
-  	from {opacity: .5}
-  	to {opacity: 1}
+.slider-container h1 {
+	margin: 10px;
+	font-style: italic;
+	color: #333;
 }
 
+/* Formulario */
+
+.box-form {
+	display: flex;
+	justify-content: center;
+	padding: 50px;
+}
+
+form {
+	/*padding: 20px;*/
+	/*margin: 0 auto;*/
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	font-weight: bold;
+	background-color: #F0F0F0;
+	border: 1px solid #7777;
+	align-items: center;
+	animation-name: form;
+	animation-duration: 1s;
+}
+
+form input {
+	background-color: white;
+	transition: 1s;
+	border: 1px solid #7777;
+	padding: 10px;
+	outline: none;
+}
+
+form label {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+}
+
+
+form input:hover {
+	background-color: #E1F3FF;
+	transition: 1s;
+}
+
+form input:focus {
+	border: 1px solid #014C7E;
+	border-radius: 10px;
+}
+
+form textarea {
+	margin: 5px;
+	resize: none;
+	transition: 1s;
+	border: 1px solid #7777;
+	padding: 25px;
+	outline: none;
+}
+
+form textarea:hover {
+	background-color: #E1F3FF;
+	transition: 1s;
+}
+
+form textarea:focus {
+	border: 1px solid #014C7E;
+	border-radius: 10px;
+}
+
+form a {
+	padding: 20px;
+	border: none;
+	color: white;
+	background-color: #333;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+form a:hover {
+	background-color: #282828;
+}
+
+form a:active {
+	background-color: #7777;
+}
+
+.title {
+	width: 100%;
+	background-color: #7777;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.title p {
+	padding: 25px;
+}
+
+@keyframes form {
+	0% { opacity: 0; }
+	50% { opacity: 0.5; }
+	100% { opacity: 1; }
+}
