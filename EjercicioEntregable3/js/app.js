@@ -3,16 +3,11 @@
 document.addEventListener("DOMContentLoaded", () => {
 	
 	timer();
-	spinner();
 
 })
 
-function spinner() {
-
-}
-
 function timer() {
-	let estreno = new Date("Oct 31, 2020 18:00:00").getTime();
+	let estreno = new Date("Nov 31, 2020 18:00:00").getTime();
 
 	let ciclo = setInterval(function() {
 		let tiempoAhora = new Date().getTime();
