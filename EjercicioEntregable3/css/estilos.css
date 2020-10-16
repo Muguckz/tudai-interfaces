@@ -4,12 +4,24 @@
 	list-style-type: none;
 }
 
+.d-none-spinner {
+	display: none;
+}
+
 .d-none {
 	display: none;
 }
 
 h1 {
 	text-align: center;
+}
+
+body {
+	background-color: #ebebeb;
+}
+
+body, html {
+  height: 100%;
 }
 
 /* Navbar */
@@ -22,6 +34,7 @@ nav {
 	padding: 20px;
 	display: flex;
 	z-index: 10;
+	/*animation: opacity 1s;*/
 }
 
 nav p {
@@ -83,7 +96,7 @@ nav ul li a:hover {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 50px;
+	margin-top: 10px;
 }
 
 /* Cuenta regresiva */
@@ -98,6 +111,7 @@ nav ul li a:hover {
 	font-weight: bold;
 	font-family: sans-serif;
 	color: #2b2b2b;
+	background-color: white;
 }
 
 .timer h2 {
@@ -111,19 +125,121 @@ nav ul li a:hover {
 
 /* Parallax */
 
-.parallax {
-	margin-top: 25px;
-	max-width: 75%;
-	animation-name: opacity;
-	animation-duration: 1s;
-}
-
-.parallax img {
+/*.parallax {
+	height: 550px;
 	width: 100%;
+	display: flex;
+	justify-content: center;
+}*/
+
+.parallax {
+	background-image: url("../images/cielo.jpg");
+	/* Full height */
+	height: 100%; 
+
+	  /* Create the parallax scrolling effect */
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
-.parallax img:hover {
+/*.parallax {
+	background-image: url("../images/cielo.jpg");
+	min-height: 500px; 
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}*/
 
+.layer {
+	position: absolute;
+	height: 100%;
+    width: 100%;
+	background-repeat: repeat-x;
+	background-size: cover;
+}
+
+.layer-4 {        
+	background-image: url("../images/oveja.png"); 
+	z-index: 2;
+	animation: sheep 5s infinite linear;
+}
+
+.layer-3 {
+	background-image: url("../images/cielo.jpg");
+	/*background-size: cover;*/
+	/*animation: noche 8s infinite linear;*/
+	/*z-index: 1;*/
+}
+
+/*.layer-2 {        
+	background-image: url("../images/cielo2.jpg");
+	animation: dia 4s infinite linear;
+	z-index: 1;
+	animation: dia 16s infinite linear;
+}
+*/
+.layer-1 {        
+	background-image: url("../images/pasto2.png");  
+	z-index: 3;
+	animation: movement 10s infinite linear;
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+ 	/*background-attachment: fixed;
+ 	background-position: center;
+ 	background-repeat: no-repeat;
+ 	background-size: cover;*/
+}
+
+@keyframes sheep {
+	0% { transform: scale(0.8); }
+	50% { transform: scale(0.7); }
+	100% { transform: scale(0.8); }
+}
+
+@keyframes movement {
+    0% { background-position-x: 0px; }
+    100% { background-position-x: -1024px; }
+}
+
+/*@keyframes dia {
+	from { background-image: url("../images/cielo.jpg"); z-index: 0 }
+	to {  background-image: url("../images/cielo2.jpg"); z-index: 1 }
+}*/
+
+/*@keyframes noche {
+	from { background-image: url("../images/cielo2.jpg"); z-index: 0 }
+	to {  background-image: url("../images/cielo.jpg"); z-index: 1 }
+}*/
+
+/* Spinner */
+
+.box-spinner {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.spinner {
+	border: 5px solid #fff;
+	border-radius: 50%;
+	border-top: 5px solid #333;
+	width: 60px;
+	height: 60px;
+	animation: spinner 2s linear infinite;
+	margin-top: 300px;
+	margin: 0 auto;
+}
+
+@keyframes spinner {
+	0% { transform: rotate(0deg); }
+ 	100% { transform: rotate(360deg); }
 }
 
 /* Cards */
@@ -146,7 +262,7 @@ nav ul li a:hover {
 	transition: 1s;
 	/*border-left: 1px solid #7777;*/
 	/*border-right: 1px solid #7777;*/
-	border: 1px solid #7777;
+	/*border: 1px solid #7777;*/
 	background: white;
 }
 
@@ -179,10 +295,14 @@ nav ul li a:hover {
 .slider-container button {
 	padding: 20px;
 	border: none;
-	background-color: dodgerblue;
-	cursor: pointer;
 	color: white;
-	font-weight: bold;
+	background-color: #333;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.slider-container button:active {
+	background-color: #7777;
 }
 
 .slide img {
@@ -193,14 +313,19 @@ nav ul li a:hover {
 } 
 
 .anim-slide {
- 	animation-name: opacity;
- 	animation-duration: 1s;
+ 	animation-name: brillo;
+ 	animation-duration: 0.5s;
 }
 
 .slider-container h1 {
 	margin: 10px;
 	font-style: italic;
 	color: #333;
+}
+
+@keyframes brillo {
+	from { filter: brightness(200%); }
+	to { filter: brightness(100%); }
 }
 
 /* Formulario */
@@ -221,7 +346,8 @@ form {
 	background-color: #F0F0F0;
 	border: 1px solid #7777;
 	align-items: center;
-	animation-name: form;
+	/*animation-name: opacity;*/
+	animation-name: translate;
 	animation-duration: 1s;
 }
 
@@ -299,8 +425,7 @@ form a:active {
 	padding: 25px;
 }
 
-@keyframes form {
-	0% { opacity: 0; }
-	50% { opacity: 0.5; }
-	100% { opacity: 1; }
+@keyframes translate {
+	0% { transform: translateX(1500px); }
+	100% { transform: translateX(50); }
 }
