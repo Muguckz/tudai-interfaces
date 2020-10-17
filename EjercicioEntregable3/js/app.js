@@ -1,7 +1,7 @@
 "use strict"
 
 document.addEventListener("DOMContentLoaded", () => {
-	
+
 	timer();
 
 })

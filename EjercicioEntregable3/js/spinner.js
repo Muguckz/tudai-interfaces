@@ -1,6 +1,6 @@
 "use strict"
 
-let elements = document.body.getElementsByTagName("*");
+let elements = document.body.querySelectorAll("*");
 
 for (let i = 2; i < elements.length; i++) {
 	elements[i].classList.add("d-none-spinner");
@@ -19,7 +19,7 @@ function forzarCarga() {
 				elements[i].classList.remove("d-none-spinner");
 				spinner.classList.add("d-none-spinner");
 			}
-				elements[0].remove();
+			elements[0].remove();
 			clearInterval(ciclo);
 		}
 
