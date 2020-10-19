@@ -3,8 +3,42 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 	timer();
+	window.addEventListener("scroll", animacionScroll);
 
 })
+
+function animacionScroll() {
+
+	/* Animación timer */
+
+	// let timer = document.querySelector(".timer");
+
+	// if (window.scrollY >= 1000) {
+	// 	timer.classList.add("opacidad");
+	// } else {
+	// 	timer.classList.remove("opacidad");
+	// }
+
+	/* Animación acordeón */
+
+	let acordeon = document.querySelector(".box-acordeon");
+
+	if (window.scrollY >= 1100) {
+		acordeon.classList.add("mover");
+	} else {
+		acordeon.classList.remove("mover");
+	}
+
+	/* Animación cards */
+
+	let cards = document.querySelector(".cards");
+
+	if (window.scrollY >= 1450) {
+		cards.classList.add("opacidad");
+	} else {
+		cards.classList.remove("opacidad");
+	}
+}
 
 function timer() {
 	let estreno = new Date("Nov 31, 2020 18:00:00").getTime();
