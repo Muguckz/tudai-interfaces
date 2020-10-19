@@ -18,10 +18,21 @@ h1, h2, h3 {
 
 body {
 	background-color: #ebebeb;
+	overflow-x: none;
 }
 
 body, html {
   height: 100%;
+}
+
+.opacidad {
+	animation-name: opacity;
+	animation-duration: 1s;
+}
+
+.mover {
+	animation-name: translate;
+	animation-duration: 1s;
 }
 
 /* Navbar */
@@ -34,6 +45,8 @@ nav {
 	padding: 20px;
 	display: flex;
 	z-index: 10;
+	justify-content: space-between;
+	align-items: center;
 	/*animation: opacity 1s;*/
 }
 
@@ -48,7 +61,7 @@ nav ul {
 	width: 50%;
 }
 
-nav ul li a {
+nav ul li a, .dropdown ul li a {
 	padding: 10px;
 	color: #fff;
 	text-decoration: none;
@@ -56,26 +69,33 @@ nav ul li a {
 	background: inherit;
 }
 
-nav ul li a:hover {
+nav ul li a:hover ,.dropdown ul li a:hover {
 	background: #7777;
 	transition: 1s;
 }
 
 .dropdown ul {
-	display: flex;
-	justify-content: center;
+	position: fixed;
+	right: 0;
+	z-index: 10;
+	padding: 20px;
 	animation: dropdown 0.3s;
 	transform-origin: top center;
 	background-color: #424242;
 }
 
 .dropdown ul li {
-	margin: 10px;
+	padding: 15px;
 }
 
 .dropdown ul li a {
 	color: white;
 	text-decoration: none;
+}
+
+.fa-bars {
+	font-size: 1.5rem;
+	color: #fff;
 }
 
 @keyframes dropdown {
@@ -131,13 +151,6 @@ nav ul li a:hover {
 }
 
 /* Parallax */
-
-/*.parallax {
-	height: 550px;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-}*/
 
 .parallax {
 	background-image: url("../images/cielo.jpg");
