@@ -446,6 +446,7 @@ form a:active {
 
 .box-acordeon {
 	margin: 30px;
+	animation: opacity 1s;
 }
 
 .box-acordeon h3 {
