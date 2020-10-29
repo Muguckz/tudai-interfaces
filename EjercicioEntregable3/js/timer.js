@@ -26,12 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function parallax() {
 	let luna = document.querySelector("#luna");
+	let oveja = document.querySelector("#oveja");
+
+	let inicio = 1500;
+	oveja.style.left = inicio + "px";
 
 	window.addEventListener("scroll", function() {
 		let valor = window.scrollY;
 
 		luna.style.left = valor * 0.5 + "px";
 		luna.style.top = valor * 0.5 + "px";
+		oveja.style.left = inicio / (valor/50) + "px";
 	})
 }
 
@@ -56,29 +61,37 @@ function animacionScroll() {
 
 	/* Animación timer */
 
-	// let timer = document.querySelector(".timer");
+	let timer = document.querySelector(".timer");
 
-	// if (window.scrollY >= 1000) {
-	// 	timer.classList.add("opacidad");
-	// } else {
-	// 	timer.classList.remove("opacidad");
-	// }
+	if (window.scrollY >= 800) {
+		timer.classList.remove("opacidad0");
+		timer.classList.add("opacidad");
+	} else {
+		timer.classList.add("opacidad0");
+		timer.classList.remove("opacidad");
+	}
 
 	/* Animación cards */
 
-	let cards = document.querySelector(".cards");
+	let cards = document.querySelector(".flex-column");
 
-	if (window.scrollY >= 880) {
+	if (window.scrollY >= 1000) {
+		// cards.classList.remove("opacity0");
+		cards.classList.remove("opacidad0");
 		cards.classList.add("opacidad");
 	} else {
+		cards.classList.add("opacidad0");
 		cards.classList.remove("opacidad");
+		// cards.classList.add("opacity0");
 	}
 
 	let slider = document.querySelector(".slider-container");
 
-	if (window.scrollY >= 1350) {
+	if (window.scrollY >= 1500) {
+		slider.classList.remove("opacidad0");
 		slider.classList.add("opacidad");
 	} else {
+		slider.classList.add("opacidad0");
 		slider.classList.remove("opacidad");
 	}
 

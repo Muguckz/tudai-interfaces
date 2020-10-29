@@ -13,7 +13,6 @@ btnSiguiente.addEventListener("click", () => {
 
 automatic();
 
-
 function automatic() {	
 	let segundos = 2;
 	let ciclo = setInterval(function() {
