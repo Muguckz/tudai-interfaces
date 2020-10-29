@@ -4,8 +4,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	timer();
 	window.addEventListener("scroll", animacionScroll);
-
+	parallax();
+	// cards();
 })
+
+// function cards() {
+// 	let card = document.querySelectorAll(".card");
+// 	let oculto = document.querySelector(".oculto");
+
+// 	for (let i = 0; i < card.length; i++) {
+// 		card[i].addEventListener("mouseover", function() {
+// 			card[i].innerHTML = "Hola";
+// 			card[i].classList.add("d-none");
+// 		});
+
+// 		card[i].addEventListener("mouseup", function() {
+			
+// 		})
+// 	}
+// }
+
+function parallax() {
+	let luna = document.querySelector("#luna");
+
+	window.addEventListener("scroll", function() {
+		let valor = window.scrollY;
+
+		luna.style.left = valor * 0.5 + "px";
+		luna.style.top = valor * 0.5 + "px";
+	})
+}
 
 function timer() {
 	let estreno = new Date("Nov 31, 2020 18:00:00").getTime();
@@ -48,7 +76,7 @@ function animacionScroll() {
 
 	let slider = document.querySelector(".slider-container");
 
-	if (window.scrollY >= 1800) {
+	if (window.scrollY >= 1700) {
 		slider.classList.add("opacidad");
 	} else {
 		slider.classList.remove("opacidad");

@@ -11,6 +11,23 @@ btnSiguiente.addEventListener("click", () => {
 	posicionSlide(1);
 })
 
+automatic();
+
+
+function automatic() {	
+	let segundos = 2;
+	let ciclo = setInterval(function() {
+
+		segundos -= 1;
+		if (segundos <= 0) {
+			posicionSlide(1);		
+			// clearInterval(ciclo);
+		}
+
+	}, 2000);
+
+}
+
 let slideIndex = 1;
 mostrarSlides(slideIndex);
 

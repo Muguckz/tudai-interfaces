@@ -2,6 +2,7 @@
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
+	font-family: 'Grenze Gotisch', cursive;
 }
 
 .d-none-spinner {
@@ -14,10 +15,11 @@
 
 h1, h2, h3 {
 	text-align: center;
+	color: #fff;
 }
 
 body {
-	background-color: #ebebeb;
+	background-color: #292929;
 	overflow-x: none;
 }
 
@@ -121,6 +123,11 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 
 /* Película */
 
+.movie {
+	width: 100%;
+}
+
+
 .movie h1 {
 	font-family: sans-serif;
 	margin: 25px;
@@ -137,8 +144,9 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	animation-duration: 2s;
 	font-weight: bold;
 	font-family: sans-serif;
-	color: #2b2b2b;
-	background-color: white;
+	color: #fff;
+	background-color: #670000;
+	font-size: 20px;
 }
 
 .timer h2 {
@@ -153,6 +161,45 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 /* Parallax */
 
 .parallax {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.parallax:before {
+	content: '';
+	position: relative;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(to top, #333, transparent);
+	z-index: 50;
+}
+
+.parallax img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.particulas {
+	animation: particulas 5s infinite linear;
+}
+
+@keyframes particulas {
+	0% { opacity: 1 }
+	50% { opacity: 0.1 }
+	100% { opacity: 1 }
+}
+
+/*.parallax {
 	background-image: url("../images/cielo.jpg");
 	height: 100%; 
 	background-attachment: fixed;
@@ -162,13 +209,13 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 }
 
 .parallax-2 {
-	background-image: url("../images/campo.jpg");
+	background-image: url("../images/portada.png");
   	min-height: 500px; 
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-}
+}*/
 
 /*.parallax {
 	background-image: url("../images/cielo.jpg");
@@ -179,7 +226,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	background-size: cover;
 }*/
 
-.layer {
+/*.layer {
 	position: absolute;
 	height: 100%;
     width: 100%;
@@ -212,16 +259,6 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 @keyframes movement {
     0% { background-position-x: 0px; }
     100% { background-position-x: -1500px; }
-}
-
-/*@keyframes dia {
-	from { background-image: url("../images/cielo.jpg"); z-index: 0 }
-	to {  background-image: url("../images/cielo2.jpg"); z-index: 1 }
-}*/
-
-/*@keyframes noche {
-	from { background-image: url("../images/cielo2.jpg"); z-index: 0 }
-	to {  background-image: url("../images/cielo.jpg"); z-index: 1 }
 }*/
 
 /* Spinner */
@@ -265,10 +302,18 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	justify-content: center;
 	align-items: center;
 	transition: 1s ease-in-out;
-	background: white;
+	background: darkred;
 	transform-style: preserve-3d;
 	text-shadow: 5px 5px 5px #333;
-	color: rgb(68, 68, 68);
+	color: #fff;
+	cursor: pointer;
+}
+
+.card-description {
+	color: #fff;
+	text-align: center;
+	margin-top: -125px;
+	text-shadow: 5px 5px 5px #333;
 }
 
 .card img {
@@ -283,7 +328,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	box-shadow: 10px 10px 10px #333;
 	transform: perspective(600px) rotateX(25deg);
 	font-size: 1.5rem;
-	color: #333;
+	color: #fff;
 }
 
 .card p {
@@ -297,7 +342,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 
 .slider-container {
 	/*padding-top: 20px;*/
-	max-width: 50%;
+	max-width: 100%;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -332,7 +377,6 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 .slider-container h1 {
 	margin: 10px;
 	font-style: italic;
-	color: #333;
 }
 
 @keyframes brillo {
@@ -366,9 +410,9 @@ form {
 form input {
 	background-color: white;
 	transition: 1s;
-	border: 1px solid #7777;
 	padding: 10px;
 	outline: none;
+	border: none;
 }
 
 form label {
@@ -376,24 +420,27 @@ form label {
 	flex-direction: column;
 	align-items: center;
 	padding: 10px;
+	border: none;
 }
 
 
 form input:hover {
 	background-color: #E1F3FF;
 	transition: 1s;
+	border: 1px solid #7777;
 }
 
 form input:focus {
 	border: 1px solid #014C7E;
 	border-radius: 10px;
+	background-color: #9999;
 }
 
 form textarea {
 	margin: 5px;
 	resize: none;
 	transition: 1s;
-	border: 1px solid #7777;
+	border: none;
 	padding: 25px;
 	outline: none;
 }
@@ -401,11 +448,13 @@ form textarea {
 form textarea:hover {
 	background-color: #E1F3FF;
 	transition: 1s;
+	border: 1px solid #7777;
 }
 
 form textarea:focus {
 	border: 1px solid #014C7E;
 	border-radius: 10px;
+	background-color: #9999;
 }
 
 form a {
@@ -415,14 +464,27 @@ form a {
 	background-color: #333;
 	cursor: pointer;
 	text-decoration: none;
+	transition: 1s;
 }
 
 form a:hover {
 	background-color: #282828;
+	box-shadow: 10px 10px 10px #333;
+	transition: 1s;
 }
 
 form a:active {
 	background-color: #7777;
+}
+
+.botonColor {
+	animation: colorBoton 5s;
+}
+
+@keyframes colorBoton {
+	0% { background-color: green; }
+	50% { background-color: lightgreen; color: black; }
+	100% { background-color: green; }
 }
 
 .title {
@@ -447,6 +509,7 @@ form a:active {
 .box-acordeon {
 	margin: 30px;
 	animation: opacity 1s;
+	font-size: 20px;
 }
 
 .box-acordeon h3 {
@@ -467,7 +530,7 @@ form a:active {
 }
 
 .active, .acordeon:hover {
-	background-color: lightblue;
+	background-color: #999;
 }
 
 .info-acordeon {
