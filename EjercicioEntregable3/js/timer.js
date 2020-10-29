@@ -68,7 +68,7 @@ function animacionScroll() {
 
 	let cards = document.querySelector(".cards");
 
-	if (window.scrollY >= 1200) {
+	if (window.scrollY >= 880) {
 		cards.classList.add("opacidad");
 	} else {
 		cards.classList.remove("opacidad");
@@ -76,7 +76,7 @@ function animacionScroll() {
 
 	let slider = document.querySelector(".slider-container");
 
-	if (window.scrollY >= 1700) {
+	if (window.scrollY >= 1350) {
 		slider.classList.add("opacidad");
 	} else {
 		slider.classList.remove("opacidad");

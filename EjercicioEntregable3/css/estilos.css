@@ -29,7 +29,7 @@ body, html {
 
 .opacidad {
 	animation-name: opacity;
-	animation-duration: 1s;
+	animation-duration: 2s;
 }
 
 .mover {
@@ -37,10 +37,16 @@ body, html {
 	animation-duration: 1s;
 }
 
+.d-flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 /* Navbar */
 
 nav {
-	position: sticky;
+	/*position: sticky;*/
 	background: #333;
 	top: 0;
 	left: 0;
@@ -138,7 +144,6 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 .timer {
 	margin: 25px;
 	border: 1px solid #7777;
-	border-radius: 5px;
 	padding: 25px;
 	animation-name: opacity;
 	animation-duration: 2s;
@@ -147,10 +152,18 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	color: #fff;
 	background-color: #670000;
 	font-size: 20px;
+	animation: timer 4s infinite linear;
+	box-shadow: 10px 10px 10px red;
 }
 
 .timer h2 {
 	text-align: center;
+}
+
+@keyframes timer {
+	0% { box-shadow: 10px 10px 10px red; }
+	50% { box-shadow: 5px 5px 5px red; }
+	100% { box-shadow: 10px 10px 10px red; }
 }
 
 @keyframes opacity {
@@ -194,9 +207,9 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 }
 
 @keyframes particulas {
-	0% { opacity: 1 }
-	50% { opacity: 0.1 }
-	100% { opacity: 1 }
+	0% { opacity: 1; }
+	50% { opacity: 0.1; }
+	100% { opacity: 1; }
 }
 
 /*.parallax {
@@ -274,7 +287,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 .spinner {
 	border: 5px solid #fff;
 	border-radius: 50%;
-	border-top: 5px solid #333;
+	border-top: 5px solid darkred;
 	width: 60px;
 	height: 60px;
 	animation: spinner 2s linear infinite;
@@ -325,7 +338,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 .card:hover {
 	transition: 1s;
 	/* transform: scale(1.1); */
-	box-shadow: 10px 10px 10px #333;
+	box-shadow: 10px 10px 10px black;
 	transform: perspective(600px) rotateX(25deg);
 	font-size: 1.5rem;
 	color: #fff;
@@ -341,12 +354,13 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 /* Slider */
 
 .slider-container {
-	/*padding-top: 20px;*/
-	max-width: 100%;
 	margin: 0 auto;
 	display: flex;
+	justify-content: center;
 	flex-direction: column;
 	align-items: center;
+	margin: 25px;
+
 }
 
 .slider-container button {
@@ -363,8 +377,8 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 }
 
 .slide img {
-    width:  700px;
-    height: 400px;
+    width:  900px;
+    height: 500px;
     object-fit: cover;
     border: 1px solid #777;
 } 
@@ -389,7 +403,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 .box-form {
 	display: flex;
 	justify-content: center;
-	padding: 50px;
+	padding: 30px;
 }
 
 form {
@@ -408,7 +422,7 @@ form {
 }
 
 form input {
-	background-color: white;
+	background-color: #9999;
 	transition: 1s;
 	padding: 10px;
 	outline: none;
@@ -425,7 +439,7 @@ form label {
 
 
 form input:hover {
-	background-color: #E1F3FF;
+	background-color: #ffff;
 	transition: 1s;
 	border: 1px solid #7777;
 }
@@ -433,6 +447,8 @@ form input:hover {
 form input:focus {
 	border: 1px solid #014C7E;
 	border-radius: 10px;
+	padding: 15px;
+	font-size: 25px;
 	background-color: #9999;
 }
 
@@ -443,10 +459,11 @@ form textarea {
 	border: none;
 	padding: 25px;
 	outline: none;
+	background-color: #9999;
 }
 
 form textarea:hover {
-	background-color: #E1F3FF;
+	background-color: #fff;
 	transition: 1s;
 	border: 1px solid #7777;
 }
@@ -455,6 +472,8 @@ form textarea:focus {
 	border: 1px solid #014C7E;
 	border-radius: 10px;
 	background-color: #9999;
+	padding: 35px;
+	font-size: 25px;
 }
 
 form a {
@@ -477,14 +496,18 @@ form a:active {
 	background-color: #7777;
 }
 
+.success {
+	margin-left: 10px;
+}
+
 .botonColor {
 	animation: colorBoton 5s;
 }
 
 @keyframes colorBoton {
-	0% { background-color: green; }
-	50% { background-color: lightgreen; color: black; }
-	100% { background-color: green; }
+	0% { background-color: #333; }
+	50% { background-color: darkred; }
+	100% { background-color: #333; }
 }
 
 .title {

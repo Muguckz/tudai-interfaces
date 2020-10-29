@@ -1,14 +1,21 @@
 "use strict"
 
-let btnEnviar = document.querySelector("#btnEnviar");
+// document.addEventListener("DOMContentLoaded", function() {
 
-btnEnviar.addEventListener("click", anim);
+	let btnEnviar = document.querySelector("#btnEnviar");
+
+	btnEnviar.addEventListener("click", anim);
+// })
+
 
 function anim() {
 	this.innerHTML = "Enviando..";
 	this.classList.add("botonColor");
 
 	let btn = this;
+
+	let success = document.querySelector(".success");
+	success.classList.add("d-none");
 
 	let segundos = 5;
 	let ciclo = setInterval(function() {
@@ -17,6 +24,7 @@ function anim() {
 		if (segundos <= 0) {
 			btn.innerHTML = "Enviado";
 			btn.classList.remove("botonColor");
+			success.classList.remove("d-none");
 			clearInterval(ciclo);
 		}
 
