@@ -3,6 +3,8 @@
 let btnAnterior = document.querySelector("#anterior");
 let btnSiguiente = document.querySelector("#siguiente");
 
+automatic();
+
 btnAnterior.addEventListener("click", () => {
 	posicionSlide(-1);
 })
@@ -11,7 +13,6 @@ btnSiguiente.addEventListener("click", () => {
 	posicionSlide(1);
 })
 
-automatic();
 
 function automatic() {	
 	let segundos = 2;
@@ -19,7 +20,8 @@ function automatic() {
 
 		segundos -= 1;
 		if (segundos <= 0) {
-			posicionSlide(1);		
+			posicionSlide(1);
+			segundos = 2;		
 			// clearInterval(ciclo);
 		}
 

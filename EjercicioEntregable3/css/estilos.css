@@ -80,8 +80,15 @@ nav ul li a, .dropdown ul li a {
 	text-decoration: none;
 	transition: 1s;
 	background: inherit;
+	/*animation: navbar 5s infinite linear;*/
 }
 
+/*@keyframes navbar {
+	0% { color: #fff; }
+	50% { color: pink; }
+	100% { color: #fff; }
+}
+*/
 nav ul li a:hover ,.dropdown ul li a:hover {
 	background: #7777;
 	transition: 1s;
@@ -338,6 +345,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	background: darkred;
 	transform-style: preserve-3d;
 	text-shadow: 5px 5px 5px #333;
+	transform: perspective(0px);
 	color: #fff;
 	cursor: pointer;
 }
@@ -441,12 +449,13 @@ form {
 	display: flex;
 	flex-direction: column;
 	font-weight: bold;
-	background-color: #F0F0F0;
+	background-color: #222;
 	border: 1px solid #7777;
 	align-items: center;
 	/*animation-name: opacity;*/
 	animation-name: translate;
 	animation-duration: 1s;
+	color: #fff;
 }
 
 form input {
@@ -467,7 +476,7 @@ form label {
 
 
 form input:hover {
-	background-color: #ffff;
+	background-color: darkred;
 	transition: 1s;
 	border: 1px solid #7777;
 }
@@ -491,7 +500,7 @@ form textarea {
 }
 
 form textarea:hover {
-	background-color: #fff;
+	background-color: darkred;
 	transition: 1s;
 	border: 1px solid #7777;
 }
@@ -534,13 +543,13 @@ form a:active {
 
 @keyframes colorBoton {
 	0% { background-color: #333; }
-	50% { background-color: #7777; color: #333; }
+	50% { background-color: #fff; color: #333; }
 	100% { background-color: #333; }
 }
 
 .title {
 	width: 100%;
-	background-color: #7777;
+	background-color: #333;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -568,8 +577,8 @@ form a:active {
 }
 
 .acordeon {
-  background-color: #fff;
-  color: #333;
+  background-color: darkred;
+  color: #fff;
   cursor: pointer;
   padding: 15px;
   width: 100%;
@@ -581,13 +590,13 @@ form a:active {
 }
 
 .active, .acordeon:hover {
-	background-color: #999;
+	background-color: #333;
 }
 
 .info-acordeon {
 	overflow: hidden;
 	padding: 0px 35px 35px;
-	background: #fff;
+	background: #777;
 	animation: dropdown 0.4s;
 	transform-origin: top center;
 	width: 400px;
