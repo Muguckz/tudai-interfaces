@@ -200,7 +200,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	align-items: center;
 }
 
-.parallax:before {
+/*.parallax:before {
 	content: '';
 	position: relative;
 	bottom: 0;
@@ -209,7 +209,7 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	background: linear-gradient(to top, #333, transparent);
 	z-index: 50;
 }
-
+*/
 .parallax img {
 	position: absolute;
 	top: 0;
@@ -348,6 +348,15 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 	transform: perspective(0px);
 	color: #fff;
 	cursor: pointer;
+}
+
+.animation-cards {
+	animation: anim-cards 1s;
+}
+
+@keyframes anim-cards {
+	from { margin-top: 100%; }
+  	to { margin-top: 0; }
 }
 
 .opacidad0 {

@@ -78,7 +78,9 @@ function animacionScroll() {
 	if (window.scrollY >= 1000) {
 		cards.classList.remove("opacidad0");
 		cards.classList.add("opacidad");
+		cards.classList.add("animation-cards");
 	} else if (window.scrollY <= 850) {
+		cards.classList.remove("animation-cards");
 		cards.classList.add("opacidad0");
 		cards.classList.remove("opacidad");
 		// cards.classList.add("opacity0");
