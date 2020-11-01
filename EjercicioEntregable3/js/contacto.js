@@ -1,12 +1,33 @@
 "use strict"
 
-// document.addEventListener("DOMContentLoaded", function() {
+let labels = document.querySelectorAll("label");
+let btnEnviar = document.querySelector("#btnEnviar");
+// let textarea = document.querySelector("textarea");
 
-	let btnEnviar = document.querySelector("#btnEnviar");
+animForm();
 
-	btnEnviar.addEventListener("click", anim);
-// })
+function animForm() {
+	let segundos = 4;
+	let ciclo = setInterval(function() {
 
+		segundos -= 1;
+		if (segundos <= 0) {
+			for (let i = 0; i < labels.length; i++) {
+				labels[i].classList.remove("opacidad0");
+				btnEnviar.classList.remove("opacidad0");
+				labels[i].classList.add("opacidad");
+				btnEnviar.classList.add("opacidad");
+
+				// console.log(labels[i]);
+			}
+			// textarea.classList.remove("opacidad0");
+			clearInterval(ciclo);
+		}
+
+	}, 1000);
+}
+
+btnEnviar.addEventListener("click", anim);
 
 function anim() {
 	this.innerHTML = "Enviando..";
