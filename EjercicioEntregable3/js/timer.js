@@ -48,10 +48,10 @@ function animacionScroll() {
 
 	let timer = document.querySelector(".timer");
 
-	if (window.scrollY >= 800) {
+	if (window.scrollY >= 900) {
 		timer.classList.remove("opacidad0");
 		timer.classList.add("opacidad");
-	} else if (window.scrollY <= 650){
+	} else if (window.scrollY <= 850){
 		timer.classList.add("opacidad0");
 		timer.classList.remove("opacidad");
 	}
@@ -60,11 +60,11 @@ function animacionScroll() {
 
 	let cards = document.querySelector(".flex-column");
 
-	if (window.scrollY >= 1000) {
+	if (window.scrollY >= 1100) {
 		cards.classList.remove("opacidad0");
 		cards.classList.add("opacidad");
 		cards.classList.add("animation-cards");
-	} else if (window.scrollY <= 850) {
+	} else if (window.scrollY <= 1000) {
 		cards.classList.remove("animation-cards");
 		cards.classList.add("opacidad0");
 		cards.classList.remove("opacidad");
@@ -73,10 +73,10 @@ function animacionScroll() {
 
 	let slider = document.querySelector(".slider-container");
 
-	if (window.scrollY >= 1500) {
+	if (window.scrollY >= 1600) {
 		slider.classList.remove("opacidad0");
 		slider.classList.add("opacidad");
-	} else if (window.scrollY <= 1350){
+	} else if (window.scrollY <= 1500){
 		slider.classList.add("opacidad0");
 		slider.classList.remove("opacidad");
 	}
