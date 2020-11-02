@@ -5,28 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	timer();
 	window.addEventListener("scroll", animacionScroll);
 	parallax();
-	// cards();
 })
-
-// function cards() {
-// 	let card = document.querySelectorAll(".card");
-// 	let oculto = document.querySelector(".oculto");
-
-// 	for (let i = 0; i < card.length; i++) {
-// 		card[i].addEventListener("mouseover", function() {
-// 			card[i].innerHTML = "Hola";
-// 			card[i].classList.add("d-none");
-// 		});
-
-// 		card[i].addEventListener("mouseup", function() {
-			
-// 		})
-// 	}
-// }
 
 function parallax() {
 	let luna = document.querySelector("#luna");
 	let oveja = document.querySelector("#oveja");
+	let ovejaMovimiento = document.querySelector("#ovejaMovimiento");
 
 	let inicioOveja = 1500;
 	oveja.style.left = inicioOveja + "px";
@@ -37,6 +21,7 @@ function parallax() {
 		luna.style.left = valor * 0.5 + "px";
 		luna.style.top = valor * 0.5 + "px";
 		oveja.style.left = inicioOveja / (valor/50) + "px";
+		ovejaMovimiento.style.marginLeft = valor * 0.5 + "px";
 	})
 }
 

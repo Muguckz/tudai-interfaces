@@ -147,8 +147,23 @@ nav ul li a:hover ,.dropdown ul li a:hover {
 
 
 .movie h1 {
-	font-family: sans-serif;
 	margin: 25px;
+}
+
+.box-oveja {
+	margin: 25px;
+	width: 100%;
+	background-image: url('../images/pasto.jpg');
+	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+  	display: flex;
+  	align-items: flex-end;
+}
+
+.box-oveja img {
+	max-width: 200px;
+	max-height: 200px;
 }
 
 /* Cuenta regresiva */
